@@ -1,5 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { AuthService } from '../../../../core/services/auth-service/auth-service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-overview-page',
@@ -7,11 +6,4 @@ import { AuthService } from '../../../../core/services/auth-service/auth-service
   templateUrl: './dashboard-overview-page.html',
   styleUrl: './dashboard-overview-page.css',
 })
-export class DashboardOverviewPage implements OnInit {
-  private readonly authService = inject(AuthService);
-
-  ngOnInit(): void {
-    console.log('token: ', this.authService.token());
-    console.log('userData: ', this.authService.userData());
-  }
-}
+export class DashboardOverviewPage {}

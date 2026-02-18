@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { Observable, shareReplay, switchMap, tap } from 'rxjs';
 import { RegisterResponse } from '../../../features/auth/models/register-response.model';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { RegisterRequest } from '../../../features/auth/models/register-request.model';
@@ -21,7 +21,7 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly apiUrl = environment.apiUrl;
 
-  tokenSignal = signal<string | null>(this.storageService.get('token'));
+  tokenSignal = signal<string | null>(null);
   userData = signal<User>({
     id: '',
     username: '',
@@ -42,10 +42,7 @@ export class AuthService {
     });
   }
 
-  login(payload: LoginRequest): Observable<{
-    login: LoginResponse;
-    profile: UserProfileResponse;
-  }> {
+  login(payload: LoginRequest): Observable<UserProfileResponse> {
     return this.http
       .post<LoginResponse>(`${this.apiUrl}/auth/login`, payload, {
         context: new HttpContext().set(IS_PUBLIC_API, true),
@@ -55,25 +52,20 @@ export class AuthService {
           this.storageService.set('token', response.accessToken);
           this.tokenSignal.set(response.accessToken);
         }),
-        switchMap((response: LoginResponse) => {
-          return this.profile().pipe(
-            map((profileResponse: UserProfileResponse) => ({
-              login: response,
-              profile: profileResponse,
-            })),
-          );
-        }),
+        switchMap(() => this.profile()),
       );
   }
 
   profile(): Observable<UserProfileResponse> {
-    return this.http
-      .get<UserProfileResponse>(`${this.apiUrl}/auth/profile`)
-      .pipe(tap((response: UserProfileResponse) => this.userData.set({ ...response })));
+    return this.http.get<UserProfileResponse>(`${this.apiUrl}/auth/profile`).pipe(
+      tap((response: UserProfileResponse) => this.userData.set(response)),
+      shareReplay(1),
+    );
   }
 
   logout(): void {
-    this.storageService.clear();
+    this.storageService.remove('token');
+    this.tokenSignal.set(null);
     this.userData.set({
       id: '',
       username: '',

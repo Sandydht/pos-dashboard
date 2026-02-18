@@ -1,0 +1,35 @@
+<header
+  class="w-full h-auto min-h-15.25 max-h-15.25 px-[25px] py-2 flex items-center justify-between md:justify-end gap-2 bg-white border-b border-gray-100 fixed top-0 left-0 right-0 z-40"
+>
+  <div class="w-full h-auto flex items-center justify-start gap-2 md:hidden">
+    <button
+      type="button"
+      class="w-full h-full aspect-square min-w-[32px] max-w-[32px] min-h-[32px] max-h-[32px] flex items-center justify-center cursor-pointer rounded-md transition outline-none"
+      (click)="openSideBar()"
+    >
+      <img
+        src="assets/images/svg/menu_24px_tertiary_500.svg"
+        alt="Menu icon"
+        class="w-full h-full aspect-square max-w-[20px] max-h-[20px] object-contain object-center"
+      />
+    </button>
+
+    <p class="text-left text-[14px] leading-[20px] font-semibold line-clamp-1">flexpos</p>
+  </div>
+
+  <div class="w-auto h-auto flex items-center justify-end gap-2">
+    <p class="text-right text-[14px] leading-[20px] text-gray-500 hidden md:block">
+      Hi, {{ userFullName() }}
+    </p>
+
+    <div
+      class="w-full h-full aspect-square min-w-[32px] max-w-[32px] min-h-[32px] max-h-[32px] rounded-full flex items-center justify-center bg-gray-500"
+    >
+      <img
+        src="assets/images/svg/perm_identity_24px_white.svg"
+        alt="Person icon"
+        class="w-full h-full aspect-square max-w-[20px] max-h-[20px] object-contain object-center"
+      />
+    </div>
+  </div>
+</header>
