@@ -78,7 +78,10 @@ export class RegisterPage {
   }
 
   onSubmit(): void {
-    if (this.registerForm.invalid) return;
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
 
     this.submitRegisterLoading.set(true);
 
@@ -93,6 +96,7 @@ export class RegisterPage {
     this.authService.register(payload).subscribe({
       next: (response: RegisterResponse) => {
         if (response.id) {
+          this.registerForm.reset();
           this.submitRegisterLoading.set(false);
         }
       },
