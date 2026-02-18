@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { catchError, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
+import { catchError, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { RegisterRequest } from '../../../features/auth/models/register-request.model';
 import { StorageService } from '../storage-service/storage-service';
@@ -10,6 +10,8 @@ import { UserProfileResponse } from '../../../features/auth/models/user-profile-
 import { IS_PUBLIC_API } from '../../interceptors/request-context.interceptor';
 import { User } from '../../../features/auth/models/user.model';
 import { Router } from '@angular/router';
+import { OnboardingService } from '../onboarding-service/onboarding-service';
+import { OnboardingStatus } from '../../../features/onboarding/models/onboarding-status.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +21,7 @@ export class AuthService {
   private readonly storageService = inject(StorageService);
   private readonly router = inject(Router);
   private readonly apiUrl = environment.apiUrl;
+  private readonly onboardingService = inject(OnboardingService);
 
   tokenSignal = signal<string | null>(this.storageService.get('token'));
   userData = signal<User | null>(null);
@@ -37,12 +40,12 @@ export class AuthService {
           this.storageService.set('token', response.accessToken);
           this.tokenSignal.set(response.accessToken);
         }),
+        switchMap(() => this.handleAuthFlow()),
         catchError(() => {
           this.tokenSignal.set(null);
           this.storageService.remove('token');
           return of(null);
         }),
-        switchMap(() => this.profile()),
       );
   }
 
@@ -56,12 +59,12 @@ export class AuthService {
           this.storageService.set('token', response.accessToken);
           this.tokenSignal.set(response.accessToken);
         }),
+        switchMap(() => this.handleAuthFlow()),
         catchError(() => {
           this.tokenSignal.set(null);
           this.storageService.remove('token');
           return of(null);
         }),
-        switchMap(() => this.profile()),
       );
   }
 
@@ -81,5 +84,28 @@ export class AuthService {
     this.tokenSignal.set(null);
     this.userData.set(null);
     this.router.navigate(['/login']);
+  }
+
+  private handleAuthFlow(): Observable<UserProfileResponse | null> {
+    return this.profile().pipe(
+      switchMap((profile) => {
+        if (!profile) return of(null);
+
+        return this.onboardingService.getOnboardingStatus().pipe(
+          tap((status) => this.redirectOnboarding(status)),
+          map(() => profile),
+        );
+      }),
+    );
+  }
+
+  private redirectOnboarding(status: OnboardingStatus | null) {
+    if (!status) return;
+
+    if (status === 'complete') {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/onboarding', status]);
+    }
   }
 }

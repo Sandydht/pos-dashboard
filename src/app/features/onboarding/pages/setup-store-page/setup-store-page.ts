@@ -95,7 +95,7 @@ export class SetupStorePage {
         next: (response: Store | null) => {
           if (response?.id) {
             this.setupStoreForm.reset();
-            this.router.navigate(['onboarding', 'setup-product-and-catalog']);
+            this.router.navigate(['/onboarding', 'setup-outlet']);
           }
 
           this.submitSetupStoreLoading.set(false);

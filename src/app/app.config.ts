@@ -17,9 +17,9 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { sidebarReducer } from './layouts/side-bar-layout/store/sidebar.reducer';
 import { SidebarEffects } from './layouts/side-bar-layout/store/sidebar.effects';
-import { StoreService } from './core/services/store-service/store-service';
+import { OnboardingService } from './core/services/onboarding-service/onboarding-service';
 
-export const initApp = (authService: AuthService, storeService: StoreService) => {
+export const initApp = (authService: AuthService, onboardingService: OnboardingService) => {
   return async () => {
     if (!authService.token()) {
       return;
@@ -31,7 +31,7 @@ export const initApp = (authService: AuthService, storeService: StoreService) =>
       return;
     }
 
-    await firstValueFrom(storeService.checkStore());
+    await firstValueFrom(onboardingService.getOnboardingStatus());
   };
 };
 
@@ -53,7 +53,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
-      deps: [AuthService, StoreService],
+      deps: [AuthService, OnboardingService],
       multi: true,
     },
   ],

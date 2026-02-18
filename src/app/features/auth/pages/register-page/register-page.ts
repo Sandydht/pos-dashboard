@@ -10,7 +10,7 @@ import { strongPasswordValidator } from '../../../../shared/validators/strong-pa
 import { usernameValidator } from '../../../../shared/validators/username.validator';
 import { indonesianPhoneNumberValidator } from '../../../../shared/validators/indonesian-phone-number.validator';
 import { AuthService } from '../../../../core/services/auth-service/auth-service';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -29,7 +29,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class RegisterPage {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
   registerForm = this.formBuilder.nonNullable.group({
@@ -104,7 +103,6 @@ export class RegisterPage {
         next: () => {
           this.registerForm.reset();
           this.submitRegisterLoading.set(false);
-          this.router.navigate(['/onboarding']);
         },
         error: () => {
           this.submitRegisterLoading.set(false);

@@ -3,7 +3,7 @@ import { InputComponent } from '../../../../shared/components/input/input';
 import { CommonModule } from '@angular/common';
 import { InputPasswordComponent } from '../../../../shared/components/input-password/input-password';
 import { ButtonComponent } from '../../../../shared/components/button/button';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { strongPasswordValidator } from '../../../../shared/validators/strong-password.validator';
 import { getFormErrorMessage } from '../../../../shared/utils/form-error';
@@ -28,7 +28,6 @@ export class LoginPage {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly router = inject(Router);
 
   submitLoginLoading = signal<boolean>(false);
 
@@ -77,7 +76,6 @@ export class LoginPage {
         next: () => {
           this.loginForm.reset();
           this.submitLoginLoading.set(false);
-          this.router.navigate(['/dashboard']);
         },
         error: () => {
           this.submitLoginLoading.set(false);

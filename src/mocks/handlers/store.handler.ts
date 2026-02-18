@@ -5,27 +5,6 @@ import { CreateStoreRequest } from '../../app/features/store/models/create-store
 import { storeMockDbService } from '../indexed-db/services/store.mock-db.service';
 
 export const storeHandlers = [
-  http.get('/api/store/check', async ({ request }) => {
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader) {
-      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    const decryptedToken = decrypt(token);
-    const user = await db.users.get(decryptedToken);
-    if (!user) {
-      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 });
-    }
-
-    const store = await db.stores.where('ownerId').equals(user.id).first();
-    if (!store) {
-      return HttpResponse.json({ message: "You haven't setup a store yet" }, { status: 200 });
-    }
-
-    return HttpResponse.json({ message: 'Store has been set up' }, { status: 200 });
-  }),
-
   http.post('/api/store/create', async ({ request }) => {
     const body = (await request.json()) as CreateStoreRequest;
 

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuardGuard } from './core/guards/auth-guard/auth-guard-guard';
 import { MainLayout } from './layouts/main-layout/main-layout';
 import { onboardingGuardGuard } from './core/guards/onboarding-guard/onboarding-guard-guard';
+import { onboardingStepGuardGuard } from './core/guards/onboarding-step-guard/onboarding-step-guard-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -22,13 +23,23 @@ export const routes: Routes = [
       { path: '', redirectTo: 'setup-store', pathMatch: 'full' },
       {
         path: 'setup-store',
+        canActivate: [onboardingStepGuardGuard],
         loadComponent: () =>
           import('../app/features/onboarding/pages/setup-store-page/setup-store-page').then(
             (m) => m.SetupStorePage,
           ),
       },
       {
+        path: 'setup-outlet',
+        canActivate: [onboardingStepGuardGuard],
+        loadComponent: () =>
+          import('../app/features/onboarding/pages/setup-outlet-page/setup-outlet-page').then(
+            (m) => m.SetupOutletPage,
+          ),
+      },
+      {
         path: 'setup-product-and-catalog',
+        canActivate: [onboardingStepGuardGuard],
         loadComponent: () =>
           import('../app/features/onboarding/pages/setup-product-and-catalog-page/setup-product-and-catalog-page').then(
             (m) => m.SetupProductAndCatalogPage,
