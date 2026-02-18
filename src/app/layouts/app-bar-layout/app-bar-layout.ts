@@ -13,7 +13,7 @@ export class AppBarLayout {
   private readonly authService = inject(AuthService);
   private readonly store = inject(Store);
 
-  userFullName = computed(() => this.authService.userData().fullName);
+  userFullName = computed(() => this.authService.userFullName());
 
   openSideBar(): void {
     this.store.dispatch(SidebarActions.openSidebar());

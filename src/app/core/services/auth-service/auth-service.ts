@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Observable, shareReplay, switchMap, tap } from 'rxjs';
+import { catchError, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
 import { RegisterResponse } from '../../../features/auth/models/register-response.model';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { RegisterRequest } from '../../../features/auth/models/register-request.model';
@@ -21,20 +21,12 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly apiUrl = environment.apiUrl;
 
-  tokenSignal = signal<string | null>(null);
-  userData = signal<User>({
-    id: '',
-    username: '',
-    email: '',
-    phoneNumber: '',
-    fullName: '',
-    roles: [],
-    createdAt: '',
-    updatedAt: '',
-    deletedAt: '',
-  });
+  tokenSignal = signal<string | null>(this.storageService.get('token'));
+  userData = signal<User | null>(null);
 
   token = computed(() => this.tokenSignal());
+  userId = computed(() => this.userData()?.id ?? '');
+  userFullName = computed(() => this.userData()?.fullName ?? '');
 
   register(payload: RegisterRequest): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(`${this.apiUrl}/auth/register`, payload, {
@@ -42,7 +34,7 @@ export class AuthService {
     });
   }
 
-  login(payload: LoginRequest): Observable<UserProfileResponse> {
+  login(payload: LoginRequest): Observable<UserProfileResponse | null> {
     return this.http
       .post<LoginResponse>(`${this.apiUrl}/auth/login`, payload, {
         context: new HttpContext().set(IS_PUBLIC_API, true),
@@ -52,38 +44,30 @@ export class AuthService {
           this.storageService.set('token', response.accessToken);
           this.tokenSignal.set(response.accessToken);
         }),
+        catchError(() => {
+          this.tokenSignal.set(null);
+          this.storageService.remove('token');
+          return of(null);
+        }),
         switchMap(() => this.profile()),
       );
   }
 
-  profile(): Observable<UserProfileResponse> {
+  profile(): Observable<UserProfileResponse | null> {
     return this.http.get<UserProfileResponse>(`${this.apiUrl}/auth/profile`).pipe(
       tap((response: UserProfileResponse) => this.userData.set(response)),
-      shareReplay(1),
+      catchError(() => {
+        this.userData.set(null);
+        return of(null);
+      }),
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
   }
 
   logout(): void {
     this.storageService.remove('token');
     this.tokenSignal.set(null);
-    this.userData.set({
-      id: '',
-      username: '',
-      email: '',
-      phoneNumber: '',
-      fullName: '',
-      roles: [],
-      createdAt: '',
-      updatedAt: '',
-      deletedAt: '',
-    });
+    this.userData.set(null);
     this.router.navigate(['/login']);
-  }
-
-  loadToken() {
-    const saved: string | null = this.storageService.get('token');
-    if (saved) {
-      this.tokenSignal.set(saved);
-    }
   }
 }

@@ -77,7 +77,7 @@ export class LoginPage {
         next: () => {
           this.loginForm.reset();
           this.submitLoginLoading.set(false);
-          this.router.navigate(['/']);
+          this.router.navigate(['/onboarding']);
         },
         error: () => {
           this.submitLoginLoading.set(false);
