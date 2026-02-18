@@ -3,7 +3,7 @@ import { RegisterRequest } from '../../app/features/auth/models/register-request
 import { userMockService } from '../indexed-db/services/user.mock-db.service';
 import { db } from '../indexed-db/app.db';
 import { LoginRequest } from '../../app/features/auth/models/login-request.model';
-import { LoginResponse } from '../../app/features/auth/models/login-response.model';
+import { RegisterLoginResponse } from '../../app/features/auth/models/register-login-response.model';
 import { decrypt, encrypt } from '../utils/crypto';
 
 export const authHandlers = [
@@ -21,7 +21,7 @@ export const authHandlers = [
     }
 
     const now = new Date().toISOString();
-    const result = await userMockService.create({
+    const newUser = await userMockService.create({
       username: body.username,
       email: body.email,
       phoneNumber: body.phoneNumber,
@@ -32,6 +32,13 @@ export const authHandlers = [
       updatedAt: null,
       deletedAt: null,
     });
+
+    const userId = newUser.id;
+    const encryptedUserId = encrypt(userId);
+    const result: RegisterLoginResponse = {
+      accessToken: encryptedUserId,
+      user: newUser,
+    };
 
     return HttpResponse.json(result, { status: 201 });
   }),
@@ -50,7 +57,7 @@ export const authHandlers = [
 
     const userId = findByEmail.id;
     const encryptedUserId = encrypt(userId);
-    const result: LoginResponse = {
+    const result: RegisterLoginResponse = {
       accessToken: encryptedUserId,
       user: findByEmail,
     };

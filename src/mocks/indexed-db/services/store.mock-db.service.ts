@@ -38,3 +38,5 @@ export class StoreMockDbService {
     await db.stores.clear();
   }
 }
+
+export const storeMockDbService = new StoreMockDbService();

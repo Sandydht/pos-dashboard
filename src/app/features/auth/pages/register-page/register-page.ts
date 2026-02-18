@@ -10,7 +10,6 @@ import { strongPasswordValidator } from '../../../../shared/validators/strong-pa
 import { usernameValidator } from '../../../../shared/validators/username.validator';
 import { indonesianPhoneNumberValidator } from '../../../../shared/validators/indonesian-phone-number.validator';
 import { AuthService } from '../../../../core/services/auth-service/auth-service';
-import { RegisterResponse } from '../../models/register-response.model';
 import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -102,12 +101,10 @@ export class RegisterPage {
       .register(payload)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: RegisterResponse) => {
-          if (response.id) {
-            this.registerForm.reset();
-            this.submitRegisterLoading.set(false);
-            this.router.navigate(['/login']);
-          }
+        next: () => {
+          this.registerForm.reset();
+          this.submitRegisterLoading.set(false);
+          this.router.navigate(['/onboarding']);
         },
         error: () => {
           this.submitRegisterLoading.set(false);

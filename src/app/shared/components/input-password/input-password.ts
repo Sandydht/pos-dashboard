@@ -27,6 +27,7 @@ export class InputPasswordComponent implements ControlValueAccessor {
 
   internalValue = signal<string>('');
   isShowPassword = signal<boolean>(false);
+  disabledSignal = signal(false);
 
   private onChange: (value: string) => void = () => {};
   private onTouches: () => void = () => {};
@@ -41,6 +42,10 @@ export class InputPasswordComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouches = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabledSignal.set(isDisabled);
   }
 
   handleInput(event: Event): void {
@@ -70,7 +75,7 @@ export class InputPasswordComponent implements ControlValueAccessor {
     const errorStyle =
       'border-[var(--color-error)] focus:border-[var(--color-error-dark)] focus:ring-2 focus:ring-[var(--color-error-light)]';
 
-    if (this.disabled()) return `${baseStyle} ${disabledStyle}`;
+    if (this.isDisabled()) return `${baseStyle} ${disabledStyle}`;
     if (this.error()) return `${baseStyle} ${errorStyle}`;
 
     return `${baseStyle} ${normalStyle}`;
@@ -82,8 +87,10 @@ export class InputPasswordComponent implements ControlValueAccessor {
     const normalStyle = 'cursor-pointer';
     const disabledStyle = 'cursor-not-allowed';
 
-    if (this.disabled()) return `${baseStyle} ${disabledStyle}`;
+    if (this.isDisabled()) return `${baseStyle} ${disabledStyle}`;
 
     return `${baseStyle} ${normalStyle}`;
   });
+
+  isDisabled = computed(() => this.disabled() || this.disabledSignal());
 }

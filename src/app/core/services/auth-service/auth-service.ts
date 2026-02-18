@@ -1,12 +1,11 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { catchError, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
-import { RegisterResponse } from '../../../features/auth/models/register-response.model';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { RegisterRequest } from '../../../features/auth/models/register-request.model';
 import { StorageService } from '../storage-service/storage-service';
 import { environment } from '../../../../environments/environment';
 import { LoginRequest } from '../../../features/auth/models/login-request.model';
-import { LoginResponse } from '../../../features/auth/models/login-response.model';
+import { RegisterLoginResponse } from '../../../features/auth/models/register-login-response.model';
 import { UserProfileResponse } from '../../../features/auth/models/user-profile-response.model';
 import { IS_PUBLIC_API } from '../../interceptors/request-context.interceptor';
 import { User } from '../../../features/auth/models/user.model';
@@ -28,19 +27,32 @@ export class AuthService {
   userId = computed(() => this.userData()?.id ?? '');
   userFullName = computed(() => this.userData()?.fullName ?? '');
 
-  register(payload: RegisterRequest): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.apiUrl}/auth/register`, payload, {
-      context: new HttpContext().set(IS_PUBLIC_API, true),
-    });
+  register(payload: RegisterRequest): Observable<UserProfileResponse | null> {
+    return this.http
+      .post<RegisterLoginResponse>(`${this.apiUrl}/auth/register`, payload, {
+        context: new HttpContext().set(IS_PUBLIC_API, true),
+      })
+      .pipe(
+        tap((response: RegisterLoginResponse) => {
+          this.storageService.set('token', response.accessToken);
+          this.tokenSignal.set(response.accessToken);
+        }),
+        catchError(() => {
+          this.tokenSignal.set(null);
+          this.storageService.remove('token');
+          return of(null);
+        }),
+        switchMap(() => this.profile()),
+      );
   }
 
   login(payload: LoginRequest): Observable<UserProfileResponse | null> {
     return this.http
-      .post<LoginResponse>(`${this.apiUrl}/auth/login`, payload, {
+      .post<RegisterLoginResponse>(`${this.apiUrl}/auth/login`, payload, {
         context: new HttpContext().set(IS_PUBLIC_API, true),
       })
       .pipe(
-        tap((response: LoginResponse) => {
+        tap((response: RegisterLoginResponse) => {
           this.storageService.set('token', response.accessToken);
           this.tokenSignal.set(response.accessToken);
         }),
