@@ -1,0 +1,115 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss';
+
+:root {
+  /* ==========================================================================
+     1. PRIMARY COLORS (Brand Identity - Blue)
+     ========================================================================== */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #1a2e5a;
+  /* Base Brand Color */
+  --color-primary-600: #142546;
+  /* Hover */
+  --color-primary-700: #111f3d;
+  /* Active / Deep */
+  --color-primary-800: #0c162d;
+  --color-primary-900: #080f1e;
+
+  /* ==========================================================================
+     2. SECONDARY COLORS (Accent - Gold)
+     ========================================================================== */
+  --color-secondary-300: #fde68a;
+  --color-secondary-400: #fcd34d;
+  --color-secondary-500: #f8c123;
+  /* Base Gold */
+  --color-secondary-600: #d9a71b;
+  /* Hover Gold */
+  --color-secondary-700: #b48a17;
+
+  /* ==========================================================================
+     3. TERTIARY COLORS (Slate / Cool Grays)
+     ========================================================================== */
+  --color-tertiary-500: #6c7587;
+  /* Icons / Secondary Text */
+  --color-tertiary-600: #4b5563;
+  --color-tertiary-700: #374151;
+
+  /* ==========================================================================
+     4. QUATERNARY COLORS (Surfaces / Soft Grays)
+     ========================================================================== */
+  --color-quaternary-50: #f8fafc;
+  /* App Background */
+  --color-quaternary-100: #f1f5f9;
+  /* Card Background */
+  --color-quaternary-200: #e2e8f0;
+  /* Borders */
+  --color-quaternary-300: #cbd5e1;
+  /* Disabled Elements */
+
+  /* ==========================================================================
+     5. SEMANTIC STATES (Success, Error, Info, Warning)
+     ========================================================================== */
+  --color-success: #22c55e;
+  --color-success-light: #dcfce7;
+  --color-success-dark: #16a34a;
+
+  --color-error: #ef4444;
+  --color-error-light: #fee2e2;
+  --color-error-dark: #b91c1c;
+
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-warning-dark: #d97706;
+
+  --color-info: #3b82f6;
+  --color-info-light: #dbeafe;
+  --color-info-dark: #2563eb;
+
+  /* ==========================================================================
+     6. INTERACTIVE STATES (Hover, Focus, Disabled)
+     ========================================================================== */
+  --state-hover-overlay: rgba(0, 0, 0, 0.05);
+  --state-focus-ring: 0 0 0 4px rgba(26, 46, 90, 0.2);
+  --state-disabled-opacity: 0.5;
+  --state-disabled-bg: var(--color-quaternary-300);
+
+  /* ==========================================================================
+     7. TYPOGRAPHY (Scales)
+     ========================================================================== */
+  --font-family: 'Inter', system-ui, sans-serif;
+
+  --text-xs: 0.75rem;
+  /* 12px - Caption */
+  --text-sm: 0.875rem;
+  /* 14px - Body Small / Table Content */
+  --text-base: 1rem;
+  /* 16px - Default Body */
+  --text-lg: 1.125rem;
+  /* 18px - Subtitles */
+  --text-xl: 1.25rem;
+  /* 20px - Card Titles */
+  --text-2xl: 1.5rem;
+  /* 24px - Section Titles */
+  --text-3xl: 1.875rem;
+  /* 30px - Page Headers */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+
+  /* ==========================================================================
+     8. SHADOWS & ELEVATION
+     ========================================================================== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}

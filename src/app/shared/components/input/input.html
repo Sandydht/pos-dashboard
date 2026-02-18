@@ -1,0 +1,28 @@
+<div class="w-full h-auto flex flex-col items-start justify-start gap-1.5">
+  <label [htmlFor]="id()" class="text-left text-[12px] leading-[16px] font-semibold text-black">
+    {{ label() }}
+
+    @if (required()) {
+      <span class="text-[var(--color-error)]">*</span>
+    }
+  </label>
+
+  <div class="w-full h-auto flex flex-col items-start justify-start gap-1">
+    <input
+      [id]="id()"
+      [type]="type()"
+      [class]="inputClasses()"
+      [placeholder]="placeholder()"
+      [value]="internalValue()"
+      [disabled]="disabled()"
+      (input)="handleInput($event)"
+      (blur)="handleBlur()"
+    />
+
+    @if (error()) {
+      <span class="text-left text-[12px] leading-[16px] text-[var(--color-error)]">
+        {{ error() }}
+      </span>
+    }
+  </div>
+</div>

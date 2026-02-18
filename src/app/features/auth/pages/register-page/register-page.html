@@ -1,0 +1,90 @@
+<div class="w-full h-auto flex flex-col items-center justify-start py-10 px-[25px] gap-10">
+  <div class="w-auto h-auto">
+    <img
+      src="assets/images/webp/flexpos-logo.webp"
+      alt="Flexpos logo"
+      class="w-full h-auto object-contain object-center max-w-[250px]"
+    />
+  </div>
+
+  <form
+    class="w-full h-auto flex flex-col items-center justify-start gap-6 max-w-[320px]"
+    [formGroup]="registerForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="w-full h-auto">
+      <p class="text-center text-[22px] leading-[28px] font-semibold">Create Your Account</p>
+    </div>
+
+    <div class="w-full h-auto flex flex-col items-start justify-start gap-4">
+      <div class="w-full h-auto">
+        <app-input
+          id="username"
+          label="Username"
+          placeholder="Username..."
+          [required]="true"
+          formControlName="username"
+          [error]="usernameError"
+        ></app-input>
+      </div>
+
+      <div class="w-full h-auto">
+        <app-input
+          id="email"
+          label="Email"
+          placeholder="Email..."
+          [required]="true"
+          type="email"
+          formControlName="email"
+          [error]="emailError"
+        ></app-input>
+      </div>
+
+      <div class="w-full h-auto">
+        <app-input
+          id="phoneNumber"
+          label="Phone Number"
+          placeholder="Phone Number..."
+          [required]="true"
+          formControlName="phoneNumber"
+          [error]="phoneNumberError"
+        ></app-input>
+      </div>
+
+      <div class="w-full h-auto">
+        <app-input
+          id="fullName"
+          label="Full Name"
+          placeholder="Full Name..."
+          [required]="true"
+          formControlName="fullName"
+          [error]="fullNameError"
+        ></app-input>
+      </div>
+
+      <div class="w-full h-auto">
+        <app-input-password
+          id="password"
+          label="Password"
+          placeholder="Password..."
+          [required]="true"
+          formControlName="password"
+          [error]="passwordError"
+        ></app-input-password>
+      </div>
+    </div>
+
+    <div class="w-full h-auto">
+      <div class="w-full h-auto px-4">
+        <app-button
+          type="submit"
+          variant="primary"
+          [disabled]="registerForm.invalid || submitRegisterLoading()"
+          [loading]="submitRegisterLoading()"
+        >
+          Sign Up
+        </app-button>
+      </div>
+    </div>
+  </form>
+</div>
