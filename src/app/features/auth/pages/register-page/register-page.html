@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <div class="w-full h-auto">
+    <div class="w-full h-auto flex flex-col items-center justify-center gap-4">
       <div class="w-full h-auto px-4">
         <app-button
           type="submit"
@@ -84,6 +84,13 @@
         >
           Sign Up
         </app-button>
+      </div>
+
+      <div class="w-full h-auto">
+        <p class="text-center text-[12px] leading-[16px]">
+          Already have your account?
+          <a routerLink="/login" class="text-[var(--color-info)] hover:underline">Log In</a>
+        </p>
       </div>
     </div>
   </form>

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ButtonComponent } from '../../../../shared/components/button/button';
 import { InputComponent } from '../../../../shared/components/input/input';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,8 @@ import { usernameValidator } from '../../../../shared/validators/username.valida
 import { indonesianPhoneNumberValidator } from '../../../../shared/validators/indonesian-phone-number.validator';
 import { AuthService } from '../../../../core/services/auth-service/auth-service';
 import { RegisterResponse } from '../../models/register-response.model';
+import { Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-register-page',
@@ -20,6 +22,7 @@ import { RegisterResponse } from '../../models/register-response.model';
     CommonModule,
     ReactiveFormsModule,
     InputPasswordComponent,
+    RouterLink,
   ],
   templateUrl: './register-page.html',
   styleUrl: './register-page.css',
@@ -27,6 +30,8 @@ import { RegisterResponse } from '../../models/register-response.model';
 export class RegisterPage {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   registerForm = this.formBuilder.nonNullable.group({
     username: ['', [Validators.required, usernameValidator]],
@@ -93,16 +98,20 @@ export class RegisterPage {
       password: this.registerForm.controls.password.value,
     };
 
-    this.authService.register(payload).subscribe({
-      next: (response: RegisterResponse) => {
-        if (response.id) {
-          this.registerForm.reset();
+    this.authService
+      .register(payload)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: RegisterResponse) => {
+          if (response.id) {
+            this.registerForm.reset();
+            this.submitRegisterLoading.set(false);
+            this.router.navigate(['/login']);
+          }
+        },
+        error: () => {
           this.submitRegisterLoading.set(false);
-        }
-      },
-      error: () => {
-        this.submitRegisterLoading.set(false);
-      },
-    });
+        },
+      });
   }
 }

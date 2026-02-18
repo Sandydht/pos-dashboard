@@ -8,7 +8,7 @@ export class MockAppDB extends Dexie {
     super('MockEmployeeDB');
 
     this.version(1).stores({
-      users: 'id, username, email, phoneNumber',
+      users: 'id, username, email, phoneNumber, password',
     });
   }
 }
