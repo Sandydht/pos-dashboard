@@ -4,6 +4,7 @@ import { userMockService } from '../indexed-db/services/user.mock-db.service';
 import { db } from '../indexed-db/app.db';
 import { LoginRequest } from '../../app/features/auth/models/login-request.model';
 import { LoginResponse } from '../../app/features/auth/models/login-response.model';
+import { decrypt, encrypt } from '../utils/crypto';
 
 export const authHandlers = [
   http.post('/api/auth/register', async ({ request }) => {
@@ -47,11 +48,29 @@ export const authHandlers = [
       return HttpResponse.json({ message: 'Invalid credentials' }, { status: 400 });
     }
 
+    const userId = findByEmail.id;
+    const encryptedUserId = encrypt(userId);
     const result: LoginResponse = {
-      accessToken: 'dummy-access-token',
+      accessToken: encryptedUserId,
       user: findByEmail,
     };
 
     return HttpResponse.json(result, { status: 200 });
+  }),
+
+  http.get('/api/auth/profile', async ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const decryptedToken = decrypt(token);
+    const user = await db.users.get(decryptedToken);
+    if (!user) {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 });
+    }
+
+    return HttpResponse.json(user, { status: 200 });
   }),
 ];

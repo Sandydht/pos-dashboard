@@ -11,6 +11,7 @@ import { AuthService } from '../../../../core/services/auth-service/auth-service
 import { LoginRequest } from '../../models/login-request.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LoginResponse } from '../../models/login-response.model';
+import { UserProfileResponse } from '../../models/user-profile-response.model';
 
 @Component({
   selector: 'app-login-page',
@@ -75,11 +76,11 @@ export class LoginPage {
       .login(payload)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: LoginResponse) => {
-          if (response.accessToken) {
+        next: (response: { login: LoginResponse }) => {
+          if (response.login.accessToken) {
             this.loginForm.reset();
             this.submitLoginLoading.set(false);
-            this.router.navigate(['']);
+            this.router.navigate(['/']);
           }
         },
         error: () => {
