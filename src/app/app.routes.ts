@@ -23,7 +23,6 @@ export const routes: Routes = [
       { path: '', redirectTo: 'setup-store', pathMatch: 'full' },
       {
         path: 'setup-store',
-        canActivate: [onboardingStepGuardGuard],
         loadComponent: () =>
           import('../app/features/onboarding/pages/setup-store-page/setup-store-page').then(
             (m) => m.SetupStorePage,
@@ -31,7 +30,6 @@ export const routes: Routes = [
       },
       {
         path: 'setup-outlet',
-        canActivate: [onboardingStepGuardGuard],
         loadComponent: () =>
           import('../app/features/onboarding/pages/setup-outlet-page/setup-outlet-page').then(
             (m) => m.SetupOutletPage,
@@ -39,7 +37,6 @@ export const routes: Routes = [
       },
       {
         path: 'setup-product-and-catalog',
-        canActivate: [onboardingStepGuardGuard],
         loadComponent: () =>
           import('../app/features/onboarding/pages/setup-product-and-catalog-page/setup-product-and-catalog-page').then(
             (m) => m.SetupProductAndCatalogPage,

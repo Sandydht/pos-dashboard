@@ -4,7 +4,6 @@ import { InputComponent } from '../../../../shared/components/input/input';
 import { ButtonComponent } from '../../../../shared/components/button/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { getFormErrorMessage } from '../../../../shared/utils/form-error';
-import { AuthService } from '../../../../core/services/auth-service/auth-service';
 import { CreateStoreRequest } from '../../../store/models/create-store-request.model';
 import { StoreService } from '../../../../core/services/store-service/store-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -19,7 +18,6 @@ import { Router } from '@angular/router';
 })
 export class SetupStorePage {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly authService = inject(AuthService);
   private readonly storeService = inject(StoreService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
@@ -76,16 +74,11 @@ export class SetupStorePage {
       return;
     }
 
-    if (!this.authService.userId()) {
-      return;
-    }
-
     this.submitSetupStoreLoading.set(true);
     const payload: CreateStoreRequest = {
       photoUrl: this.setupStoreForm.controls.photoUrl.value,
       code: this.setupStoreForm.controls.storeCode.value,
       name: this.setupStoreForm.controls.storeName.value,
-      ownerId: this.authService.userId(),
     };
 
     this.storeService

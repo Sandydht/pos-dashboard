@@ -32,10 +32,8 @@ export const storeHandlers = [
 
     const now = new Date().toISOString();
     const newStore = await storeMockDbService.create({
-      photoUrl: body.photoUrl,
-      code: body.code,
-      name: body.name,
-      ownerId: body.ownerId,
+      ...body,
+      ownerId: user.id,
       createdAt: now,
       updatedAt: null,
       deletedAt: null,
