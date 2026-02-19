@@ -3,6 +3,8 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { OnboardingStatus } from '../../../features/onboarding/models/onboarding-status.model';
 import { catchError, Observable, of, shareReplay, tap } from 'rxjs';
+import { Store } from '../../../features/store/models/store.model';
+import { OnboardingCreateStoreRequest } from '../../../features/onboarding/models/onboarding-create-store-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,5 +24,13 @@ export class OnboardingService {
       }),
       shareReplay({ bufferSize: 1, refCount: true }),
     );
+  }
+
+  getStoreDetail(): Observable<Store> {
+    return this.http.get<Store>(`${this.apiUrl}/onboarding/store-detail`);
+  }
+
+  createStore(payload: OnboardingCreateStoreRequest): Observable<Store> {
+    return this.http.post<Store>(`${this.apiUrl}/onboarding/create-store`, payload);
   }
 }

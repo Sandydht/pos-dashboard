@@ -1,24 +1,32 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { InputComponent } from '../../../../shared/components/input/input';
 import { ButtonComponent } from '../../../../shared/components/button/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { getFormErrorMessage } from '../../../../shared/utils/form-error';
-import { CreateStoreRequest } from '../../../store/models/create-store-request.model';
-import { StoreService } from '../../../../core/services/store-service/store-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '../../../store/models/store.model';
 import { Router } from '@angular/router';
+import { StepHeaderComponent } from '../../components/step-header/step-header';
+import { OnboardingService } from '../../../../core/services/onboarding-service/onboarding-service';
+import { OnboardingCreateStoreRequest } from '../../models/onboarding-create-store-request.model';
 
 @Component({
   selector: 'app-setup-store-page',
-  imports: [CommonModule, InputComponent, ButtonComponent, ReactiveFormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    InputComponent,
+    ButtonComponent,
+    ReactiveFormsModule,
+    StepHeaderComponent,
+  ],
   templateUrl: './setup-store-page.html',
   styleUrl: './setup-store-page.css',
 })
-export class SetupStorePage {
+export class SetupStorePage implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly storeService = inject(StoreService);
+  private readonly onboardingService = inject(OnboardingService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
 
@@ -28,6 +36,7 @@ export class SetupStorePage {
     storeName: ['', [Validators.required]],
   });
 
+  fetchStoreDetailLoading = signal<boolean>(false);
   submitSetupStoreLoading = signal<boolean>(false);
 
   constructor() {
@@ -45,6 +54,10 @@ export class SetupStorePage {
     return getFormErrorMessage(this.setupStoreForm.controls.storeName, {
       required: 'Name is required',
     });
+  }
+
+  ngOnInit(): void {
+    this.fetchStoreDetail();
   }
 
   setListenStoreName(): void {
@@ -68,6 +81,29 @@ export class SetupStorePage {
       .slice(0, 20);
   }
 
+  fetchStoreDetail(): void {
+    this.fetchStoreDetailLoading.set(true);
+    this.onboardingService
+      .getStoreDetail()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: Store) => {
+          if (response.code && response.name) {
+            this.setupStoreForm.setValue({
+              photoUrl: null,
+              storeCode: response.code,
+              storeName: response.name,
+            });
+          }
+
+          this.fetchStoreDetailLoading.set(false);
+        },
+        error: (err) => {
+          this.fetchStoreDetailLoading.set(false);
+        },
+      });
+  }
+
   onSubmit(): void {
     if (this.setupStoreForm.invalid) {
       this.setupStoreForm.markAllAsTouched();
@@ -75,23 +111,20 @@ export class SetupStorePage {
     }
 
     this.submitSetupStoreLoading.set(true);
-    const payload: CreateStoreRequest = {
+
+    const payload: OnboardingCreateStoreRequest = {
       photoUrl: this.setupStoreForm.controls.photoUrl.value,
       code: this.setupStoreForm.controls.storeCode.value,
       name: this.setupStoreForm.controls.storeName.value,
     };
 
-    this.storeService
+    this.onboardingService
       .createStore(payload)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: Store | null) => {
-          if (response?.id) {
-            this.setupStoreForm.reset();
-            this.router.navigate(['/onboarding', 'setup-outlet']);
-          }
-
+        next: () => {
           this.submitSetupStoreLoading.set(false);
+          this.router.navigate(['/onboarding', 'setup-outlet']);
         },
         error: () => {
           this.submitSetupStoreLoading.set(false);
