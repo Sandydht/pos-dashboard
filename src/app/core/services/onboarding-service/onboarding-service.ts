@@ -5,6 +5,7 @@ import { OnboardingStatus } from '../../../features/onboarding/models/onboarding
 import { catchError, Observable, of, shareReplay, tap } from 'rxjs';
 import { Store } from '../../../features/store/models/store.model';
 import { OnboardingCreateStoreRequest } from '../../../features/onboarding/models/onboarding-create-store-request.model';
+import { Outlet } from '../../../features/outlet/models/outlet.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +33,9 @@ export class OnboardingService {
 
   createStore(payload: OnboardingCreateStoreRequest): Observable<Store> {
     return this.http.post<Store>(`${this.apiUrl}/onboarding/create-store`, payload);
+  }
+
+  getOutletDetail(): Observable<Outlet> {
+    return this.http.get<Outlet>(`${this.apiUrl}/onboarding/outlet-detail`);
   }
 }

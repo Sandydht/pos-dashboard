@@ -102,4 +102,30 @@ export const onboardingHandlers = [
 
     return HttpResponse.json(newStore, { status: 200 });
   }),
+
+  http.get('/api/onboarding/outlet-detail', async ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const decryptedToken = decrypt(token);
+    const user = await db.users.get(decryptedToken);
+    if (!user) {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 });
+    }
+
+    const store: Store | undefined = await db.stores.where('ownerId').equals(user.id).first();
+    if (!store || store === undefined) {
+      return HttpResponse.json({ message: "You haven't setup a store yet" }, { status: 200 });
+    }
+
+    const outlet: Outlet | undefined = await db.outlets.where('storeId').equals(store.id).first();
+    if (!outlet || outlet === undefined) {
+      return HttpResponse.json({ message: "You haven't setup a outlet yet" }, { status: 200 });
+    }
+
+    return HttpResponse.json(outlet, { status: 200 });
+  }),
 ];

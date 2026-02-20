@@ -1,1 +1,53 @@
-<p>input-dropdown works!</p>
+<div class="w-full h-auto flex flex-col items-start justify-start gap-1.5">
+  <label [htmlFor]="id()" class="text-left text-[12px] leading-[16px] font-semibold text-black">
+    {{ label() }}
+
+    @if (required()) {
+      <span class="text-[var(--color-error)]">*</span>
+    }
+  </label>
+
+  <div class="w-full h-auto flex flex-col items-start justify-start gap-1">
+    <div class="w-full h-auto relative">
+      <button
+        type="button"
+        [class]="buttonClasses()"
+        [disabled]="isDisabled()"
+        (click)="toggleDropdown()"
+      >
+        {{ selectedInternalValue() }}
+        <img
+          src="assets/images/svg/expand_more_24px_tertiary_500.svg"
+          alt="Expand more icon"
+          [class]="iconClasses()"
+        />
+      </button>
+
+      @if (isOpenDropdown()) {
+        <div
+          class="w-full h-auto max-h-[200px] overflow-y-auto absolute mt-1 bg-white rounded-lg border border-gray-100 shadow-md flex flex-col items-start justify-start"
+        >
+          @for (country of countries; track $index) {
+            <button
+              type="button"
+              class="w-full h-auto px-4 py-2 text-left text-[12px] leading-[16px] cursor-pointer border-b border-gray-200 last:border-0"
+              [ngClass]="{
+                'bg-[var(--color-primary-500)] text-white': internalValue() === country.key,
+                'hover:bg-gray-100 text-black': internalValue() !== country.key,
+              }"
+              (click)="handleSelectItem(country.key)"
+            >
+              {{ country.label }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    @if (error()) {
+      <span class="text-left text-[12px] leading-[16px] text-[var(--color-error)]">
+        {{ error() }}
+      </span>
+    }
+  </div>
+</div>

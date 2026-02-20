@@ -67,7 +67,7 @@ export class InputPasswordComponent implements ControlValueAccessor {
 
   inputClasses = computed(() => {
     const baseStyle =
-      'w-full h-auto border px-4 py-2 rounded-lg text-left text-[12px] leading-[16px] outline-none';
+      'w-full h-auto border pl-4 py-2 pr-12 rounded-lg text-left text-[12px] leading-[16px] outline-none';
     const normalStyle =
       'text-black border-[var(--color-tertiary-500)] focus:border-[var(--color-info)] focus:ring-2 focus:ring-[var(--color-info)]';
     const disabledStyle =

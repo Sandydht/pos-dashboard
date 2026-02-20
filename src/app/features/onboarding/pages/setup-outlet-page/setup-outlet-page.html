@@ -1,149 +1,182 @@
-<div
-  class="w-full h-auto min-h-screen flex flex-col items-center justify-start bg-[var(--color-quaternary-50)]"
->
-  <div class="w-full h-auto">
-    <app-step-header selectedStep="setup-outlet"></app-step-header>
-  </div>
-
-  <form class="w-full h-auto p-[25px] flex flex-col items-start justify-center gap-4 max-w-[650px]">
-    <div class="w-full h-auto flex flex-col items-start justify-start">
-      <p
-        class="text-left text-[14px] leading-[20px] md:text-[16px] md:leading-[24px] font-semibold"
-      >
-        Setup your Outlet
-      </p>
-
-      <p
-        class="text-left text-[12px] leading-[16px] md:text-[14px] md:leading-[20px] text-[var(--color-text-secondary)]"
-      >
-        Tell us where your physical sales happen.
-      </p>
+@if (!fetchGetOutletDetailLoading()) {
+  <div
+    class="w-full h-auto min-h-screen flex flex-col items-center justify-start bg-[var(--color-quaternary-50)]"
+  >
+    <div class="w-full h-auto">
+      <app-step-header selectedStep="setup-outlet"></app-step-header>
     </div>
 
-    <div class="w-full h-auto flex flex-col items-start justify-start gap-2">
-      <div class="w-full h-auto">
-        <app-input
-          id="outletCode"
-          label="Code"
-          placeholder="e.g. KOPI-KENANGAN"
-          [required]="true"
-        ></app-input>
-      </div>
+    <form
+      class="w-full h-auto p-[25px] flex flex-col items-start justify-center gap-4 max-w-lg"
+      [formGroup]="setupOutletForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="w-full h-auto flex flex-col items-start justify-start">
+        <p
+          class="text-left text-[14px] leading-[20px] md:text-[16px] md:leading-[24px] font-semibold"
+        >
+          Setup your Outlet
+        </p>
 
-      <div class="w-full h-auto">
-        <app-input
-          id="outletName"
-          label="Name"
-          placeholder="e.g. Kopi Kenangan"
-          [required]="true"
-        ></app-input>
-      </div>
-
-      <div class="w-full h-auto">
-        <app-input
-          id="email"
-          label="Email"
-          placeholder="e.g. example@email.com"
-          [required]="true"
-        ></app-input>
-      </div>
-
-      <div class="w-full h-auto">
-        <app-input
-          id="phoneNumber"
-          label="Phone Number"
-          placeholder="e.g. +6281123123123"
-          [required]="true"
-        ></app-input>
-      </div>
-
-      <div class="w-full h-auto">
-        <app-input
-          id="country"
-          label="Country"
-          placeholder="e.g. Indonesia"
-          [required]="true"
-        ></app-input>
-      </div>
-
-      <div class="w-full h-auto">
-        <app-input
-          id="province"
-          label="Province"
-          placeholder="e.g. DKI Jakarta"
-          [required]="true"
-        ></app-input>
-      </div>
-
-      <div class="w-full h-auto">
-        <app-input
-          id="city"
-          label="City"
-          placeholder="e.g. Jakarta Selatan"
-          [required]="true"
-        ></app-input>
-      </div>
-
-      <div class="w-full h-auto">
-        <app-input
-          id="postalCode"
-          label="Postal Code"
-          placeholder="e.g. 12345"
-          [required]="true"
-        ></app-input>
+        <p
+          class="text-left text-[12px] leading-[16px] md:text-[14px] md:leading-[20px] text-[var(--color-text-secondary)]"
+        >
+          Tell us where your physical sales happen.
+        </p>
       </div>
 
       <div class="w-full h-auto flex flex-col items-start justify-start gap-2">
         <div class="w-full h-auto">
-          <app-textarea
-            id="address"
-            label="Address"
-            placeholder="e.g. Jl. Mendawai, Jakarta Selatan"
+          <app-input
+            id="outletCode"
+            label="Code"
+            placeholder="e.g. KOPI-KENANGAN"
             [required]="true"
-          ></app-textarea>
+            formControlName="outletCode"
+          ></app-input>
         </div>
 
         <div class="w-full h-auto">
-          <button
-            type="button"
-            class="w-auto h-auto flex items-center justify-start cursor-pointer text-left text-[12px] leading-[16px] text-[var(--color-info)] font-semibold"
-          >
-            <img
-              src="assets/images/svg/location_on_24px_info.svg"
-              alt="Location icon"
-              class="w-full h-full min-w-[20px] max-w-[20px] min-h-[20px] max-h-[20px]"
-            />
-
-            Pick Location on Map
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="w-full h-auto flex flex-col items-center justify-center gap-4">
-      <div class="w-full h-auto px-4 flex flex-col items-start justify-start gap-2">
-        <div class="w-full h-auto">
-          <app-button type="submit" variant="primary"> Save & Continue </app-button>
+          <app-input
+            id="outletName"
+            label="Name"
+            placeholder="e.g. Kopi Kenangan"
+            [required]="true"
+            formControlName="outletName"
+          ></app-input>
         </div>
 
         <div class="w-full h-auto">
-          <app-button type="button" variant="outline-primary" (click)="goToSetupStorePage()">
-            Back
-          </app-button>
+          <app-input
+            id="email"
+            label="Email"
+            placeholder="e.g. example@email.com"
+            [required]="true"
+            formControlName="outletEmail"
+          ></app-input>
+        </div>
+
+        <div class="w-full h-auto">
+          <app-input
+            id="phoneNumber"
+            label="Phone Number"
+            placeholder="e.g. +6281123123123"
+            [required]="true"
+            formControlName="outletPhoneNumber"
+          ></app-input>
+        </div>
+
+        <div class="w-full h-auto">
+          <app-input-dropdown
+            id="country"
+            label="Country"
+            placeholder="e.g. Indonesia"
+            [required]="true"
+            formControlName="outletCountry"
+          ></app-input-dropdown>
+        </div>
+
+        <div class="w-full h-auto">
+          <app-input
+            id="province"
+            label="Province"
+            placeholder="e.g. DKI Jakarta"
+            [required]="true"
+            formControlName="outletProvince"
+          ></app-input>
+        </div>
+
+        <div class="w-full h-auto">
+          <app-input
+            id="city"
+            label="City"
+            placeholder="e.g. Jakarta Selatan"
+            [required]="true"
+            formControlName="outletCity"
+          ></app-input>
+        </div>
+
+        <div class="w-full h-auto">
+          <app-input
+            id="postalCode"
+            label="Postal Code"
+            placeholder="e.g. 12345"
+            [required]="true"
+            formControlName="outletPostalCode"
+          ></app-input>
+        </div>
+
+        <div class="w-full h-auto flex flex-col items-start justify-start gap-2">
+          <div class="w-full h-auto">
+            <app-textarea
+              id="address"
+              label="Address"
+              placeholder="e.g. Jl. Mendawai, Jakarta Selatan"
+              [required]="true"
+              formControlName="outletAddress"
+            ></app-textarea>
+          </div>
+
+          <div class="w-full h-auto">
+            <button
+              type="button"
+              class="w-auto h-auto flex items-center justify-start cursor-pointer text-left text-[12px] leading-[16px] text-[var(--color-info)] font-semibold"
+            >
+              <img
+                src="assets/images/svg/location_on_24px_info.svg"
+                alt="Location icon"
+                class="w-full h-full min-w-[20px] max-w-[20px] min-h-[20px] max-h-[20px]"
+              />
+
+              Pick Location on Map
+            </button>
+          </div>
+        </div>
+
+        <div class="w-full h-auto flex flex-col items-start justify-start gap-1.5">
+          <label class="text-left text-[12px] leading-[16px] font-semibold text-black">
+            Opening Hours
+            <span class="text-[var(--color-error)]">*</span>
+          </label>
+
+          <div class="w-full h-auto p-4 rounded-lg border border-[var(--color-tertiary-500)]">
+            <p>Test</p>
+          </div>
         </div>
       </div>
 
-      <div class="w-auto h-auto flex items-center justify-center gap-1">
-        <img
-          src="assets/images/svg/lock_24px_tertiary_500.svg"
-          alt="Lock icon"
-          class="w-full h-full min-w-[16px] max-w-[16px] min-h-[16px] max-h-[16px] object-contain object-center"
-        />
+      <div class="w-full h-auto flex flex-col items-center justify-center gap-4">
+        <div class="w-full h-auto px-4 flex flex-col items-start justify-start gap-2">
+          <div class="w-full h-auto">
+            <app-button
+              type="submit"
+              variant="primary"
+              [disabled]="setupOutletForm.invalid || submitSetupOutletLoading()"
+              [loading]="submitSetupOutletLoading()"
+            >
+              Save & Continue
+            </app-button>
+          </div>
 
-        <p class="text-center text-[12px] leading-[16px] text-[var(--color-tertiary-500)]">
-          Your business information is securely stored.
-        </p>
+          <div class="w-full h-auto">
+            <app-button type="button" variant="outline-primary" (click)="goToSetupStorePage()">
+              Back
+            </app-button>
+          </div>
+        </div>
+
+        <div class="w-auto h-auto flex items-center justify-center gap-1">
+          <img
+            src="assets/images/svg/lock_24px_tertiary_500.svg"
+            alt="Lock icon"
+            class="w-full h-full min-w-[16px] max-w-[16px] min-h-[16px] max-h-[16px] object-contain object-center"
+          />
+
+          <p class="text-center text-[12px] leading-[16px] text-[var(--color-tertiary-500)]">
+            Your business information is securely stored.
+          </p>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+}

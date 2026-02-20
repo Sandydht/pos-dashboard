@@ -57,7 +57,7 @@ export class SetupStorePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchStoreDetail();
+    this.fetchGetStoreDetail();
   }
 
   setListenStoreName(): void {
@@ -81,7 +81,7 @@ export class SetupStorePage implements OnInit {
       .slice(0, 20);
   }
 
-  fetchStoreDetail(): void {
+  fetchGetStoreDetail(): void {
     this.fetchStoreDetailLoading.set(true);
     this.onboardingService
       .getStoreDetail()
