@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { StepHeaderComponent } from '../../components/step-header/step-header';
 import { OnboardingService } from '../../../../core/services/onboarding-service/onboarding-service';
 import { OnboardingCreateStoreRequest } from '../../models/onboarding-create-store-request.model';
+import { GenerateUppercaseSlugPipe } from '../../../../shared/pipes/generate-uppercase-slug-pipe/generate-uppercase-slug-pipe';
 
 @Component({
   selector: 'app-setup-store-page',
@@ -21,6 +22,7 @@ import { OnboardingCreateStoreRequest } from '../../models/onboarding-create-sto
     ReactiveFormsModule,
     StepHeaderComponent,
   ],
+  providers: [GenerateUppercaseSlugPipe],
   templateUrl: './setup-store-page.html',
   styleUrl: './setup-store-page.css',
 })
@@ -29,6 +31,7 @@ export class SetupStorePage implements OnInit {
   private readonly onboardingService = inject(OnboardingService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  private readonly generateUppercaseSlug = inject(GenerateUppercaseSlugPipe);
 
   setupStoreForm = this.formBuilder.nonNullable.group({
     photoUrl: [null],
@@ -41,7 +44,7 @@ export class SetupStorePage implements OnInit {
 
   constructor() {
     this.setupStoreForm.controls.storeCode.disable();
-    this.setListenStoreName();
+    this.listenToStoreNameChanges();
   }
 
   get storeCodeError(): string {
@@ -60,25 +63,14 @@ export class SetupStorePage implements OnInit {
     this.fetchGetStoreDetail();
   }
 
-  setListenStoreName(): void {
+  listenToStoreNameChanges(): void {
     this.setupStoreForm.controls.storeName.valueChanges.subscribe((value) => {
-      const code = this.generateStoreCode(value);
+      const code = this.generateUppercaseSlug.transform(value);
 
       this.setupStoreForm.controls.storeCode.setValue(code, {
         emitEvent: false,
       });
     });
-  }
-
-  generateStoreCode(storeName: string): string {
-    if (!storeName) return '';
-
-    return storeName
-      .trim()
-      .toUpperCase()
-      .replace(/[^A-Z0-9\s]/g, '')
-      .replace(/\s+/g, '-')
-      .slice(0, 20);
   }
 
   fetchGetStoreDetail(): void {

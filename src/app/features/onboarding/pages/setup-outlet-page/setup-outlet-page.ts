@@ -11,6 +11,7 @@ import { Outlet } from '../../../outlet/models/outlet.model';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { indonesianPhoneNumberValidator } from '../../../../shared/validators/indonesian-phone-number.validator';
 import { InputDropdownComponent } from '../../../../shared/components/input-dropdown/input-dropdown';
+import { GenerateUppercaseSlugPipe } from '../../../../shared/pipes/generate-uppercase-slug-pipe/generate-uppercase-slug-pipe';
 
 @Component({
   selector: 'app-setup-outlet-page',
@@ -23,6 +24,7 @@ import { InputDropdownComponent } from '../../../../shared/components/input-drop
     ReactiveFormsModule,
     InputDropdownComponent,
   ],
+  providers: [GenerateUppercaseSlugPipe],
   templateUrl: './setup-outlet-page.html',
   styleUrl: './setup-outlet-page.css',
 })
@@ -31,13 +33,14 @@ export class SetupOutletPage implements OnInit {
   private readonly onboardingService = inject(OnboardingService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly generateUppercaseSlug = inject(GenerateUppercaseSlugPipe);
 
   setupOutletForm = this.formBuilder.nonNullable.group({
     outletCode: [{ value: '', disabled: true }, [Validators.required]],
     outletName: ['', [Validators.required]],
     outletPhoneNumber: ['', [Validators.required, indonesianPhoneNumberValidator]],
     outletEmail: ['', [Validators.required, Validators.email]],
-    outletCountry: ['', [Validators.required]],
+    outletCountry: ['ID', [Validators.required]],
     outletProvince: ['', [Validators.required]],
     outletCity: ['', [Validators.required]],
     outletPostalCode: ['', [Validators.required]],
@@ -57,8 +60,22 @@ export class SetupOutletPage implements OnInit {
   fetchGetOutletDetailLoading = signal<boolean>(false);
   submitSetupOutletLoading = signal<boolean>(false);
 
+  constructor() {
+    this.listenToOutletNameChanges();
+  }
+
   ngOnInit(): void {
     this.fetchGetOutletDetail();
+  }
+
+  listenToOutletNameChanges(): void {
+    this.setupOutletForm.controls.outletName.valueChanges.subscribe((value) => {
+      const code = this.generateUppercaseSlug.transform(value);
+
+      this.setupOutletForm.controls.outletCode.setValue(code, {
+        emitEvent: false,
+      });
+    });
   }
 
   private createDaySchedule() {
@@ -97,5 +114,6 @@ export class SetupOutletPage implements OnInit {
     }
 
     this.submitSetupOutletLoading.set(true);
+    console.log(this.setupOutletForm.value);
   }
 }

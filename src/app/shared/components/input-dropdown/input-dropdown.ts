@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, forwardRef, input, output, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { InputDropdownOption } from '../../models/input-dropdown-option.model';
 
 @Component({
   selector: 'app-input-dropdown',
@@ -22,30 +23,13 @@ export class InputDropdownComponent implements ControlValueAccessor {
   placeholder = input<string>('Input...');
   disabled = input<boolean>(false);
   error = input<string>('');
+  options = input<InputDropdownOption[]>([]);
 
   valueChange = output<string>();
 
   internalValue = signal<string>('');
   disabledSignal = signal(false);
   isOpenDropdown = signal<boolean>(false);
-
-  countries: {
-    key: string;
-    label: string;
-  }[] = [
-    {
-      key: 'ID',
-      label: 'Indonesia',
-    },
-    {
-      key: 'EN',
-      label: 'Inggris',
-    },
-    {
-      key: 'UK',
-      label: 'United Kingdom',
-    },
-  ];
 
   private onChange: (value: string) => void = () => {};
   private onTouches: () => void = () => {};
@@ -115,9 +99,11 @@ export class InputDropdownComponent implements ControlValueAccessor {
   selectedInternalValue = computed(() => {
     if (!this.internalValue()) return this.placeholder();
 
-    const findCountry = this.countries.find((data) => data.key === this.internalValue());
-    if (!findCountry) return '';
+    const findOption = this.options().find(
+      (option: InputDropdownOption) => option.key === this.internalValue(),
+    );
+    if (!findOption) return this.placeholder();
 
-    return findCountry.label;
+    return findOption;
   });
 }

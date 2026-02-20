@@ -1,0 +1,230 @@
+[
+  {
+    "id": "9c9c26e0-0e71-48fc-aca9-95c4a2f0db8f",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-AC",
+    "name": "Aceh"
+  },
+  {
+    "id": "1a78866c-3407-4d44-a1b1-be0c98aef015",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-SU",
+    "name": "Sumatera Utara"
+  },
+  {
+    "id": "20839b30-6d66-47be-b977-0ae26af9f0c6",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-SB",
+    "name": "Sumatera Barat"
+  },
+  {
+    "id": "5361ba35-aab0-4f62-abd8-81de6d480db0",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-RI",
+    "name": "Riau"
+  },
+  {
+    "id": "4743b425-4e9d-476d-ab10-91f51615e295",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-KR",
+    "name": "Kepulauan Riau"
+  },
+  {
+    "id": "87c0630b-72d7-4336-8454-6ffaed19b548",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-JA",
+    "name": "Jambi"
+  },
+  {
+    "id": "643f19e1-8ff5-43a1-bdba-6b7bf6210522",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-SS",
+    "name": "Sumatera Selatan"
+  },
+  {
+    "id": "e9dcf1f9-7e62-408d-9580-09b117a7dbfe",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-BB",
+    "name": "Bangka Belitung"
+  },
+  {
+    "id": "045640d6-c57c-40e8-93cb-6e7fc9e5203c",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-BE",
+    "name": "Bengkulu"
+  },
+  {
+    "id": "7601a631-28ee-42dc-958e-6ac4edd8cd1f",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-LA",
+    "name": "Lampung"
+  },
+  {
+    "id": "9aba6af4-f8c9-4c9f-8500-4a4d00ce7d1f",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-JK",
+    "name": "DKI Jakarta"
+  },
+  {
+    "id": "683c4e2a-9b4c-421f-b9d6-188e666b556b",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-JB",
+    "name": "Jawa Barat"
+  },
+  {
+    "id": "b742a73f-5886-422a-9fad-8c0ea770f0fb",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-JT",
+    "name": "Jawa Tengah"
+  },
+  {
+    "id": "522a867f-8b59-4f30-899c-50aa939c4114",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-YO",
+    "name": "DI Yogyakarta"
+  },
+  {
+    "id": "f190637b-e94d-4ca2-bc6d-a44e6e0ae4d7",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-JI",
+    "name": "Jawa Timur"
+  },
+  {
+    "id": "2bb8c949-cc3c-4882-83bc-1bfdab8de554",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-BT",
+    "name": "Banten"
+  },
+  {
+    "id": "8fbc97d0-5c5d-4d36-abac-22a151619377",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-BA",
+    "name": "Bali"
+  },
+  {
+    "id": "f45c78ca-22d3-4cb6-b8b8-cba6f487a482",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-NB",
+    "name": "Nusa Tenggara Barat"
+  },
+  {
+    "id": "0dfa3c19-a321-4cae-8543-72b8a1fe257a",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-NT",
+    "name": "Nusa Tenggara Timur"
+  },
+  {
+    "id": "b96ab43a-978b-4b9f-96ef-9b76c84e269b",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-KB",
+    "name": "Kalimantan Barat"
+  },
+  {
+    "id": "5a60898d-9e94-4e2d-91cc-7eeaa16ce27d",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-KT",
+    "name": "Kalimantan Tengah"
+  },
+  {
+    "id": "a29f3ea8-acb8-4cb2-9366-4e9462574889",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-KS",
+    "name": "Kalimantan Selatan"
+  },
+  {
+    "id": "e1066c8f-fd87-4728-85bf-de1b55135eb9",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-KI",
+    "name": "Kalimantan Timur"
+  },
+  {
+    "id": "44fbf61f-8e8a-402b-a5ca-591066808bfd",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-KU",
+    "name": "Kalimantan Utara"
+  },
+  {
+    "id": "580d34a0-b65c-4b99-a7e3-951ff87d7ff7",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-SA",
+    "name": "Sulawesi Utara"
+  },
+  {
+    "id": "8b44f340-3d1a-41d1-bd59-2c717bebe820",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-GO",
+    "name": "Gorontalo"
+  },
+  {
+    "id": "a12705a0-c162-47df-93a1-7ecfb72678d6",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-ST",
+    "name": "Sulawesi Tengah"
+  },
+  {
+    "id": "f0c95880-c28c-4ae1-b3df-176e5214bb1f",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-SR",
+    "name": "Sulawesi Barat"
+  },
+  {
+    "id": "0fb2ad34-d05c-4d36-a41d-6f9936d551b6",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-SN",
+    "name": "Sulawesi Selatan"
+  },
+  {
+    "id": "0e7a7263-ce99-4bdb-8bfb-6f223f9526fa",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-SG",
+    "name": "Sulawesi Tenggara"
+  },
+  {
+    "id": "e87c77e9-129b-4741-9ba0-ce6c930620e2",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-MA",
+    "name": "Maluku"
+  },
+  {
+    "id": "40c546a6-c824-4dc7-bb75-fcfb66b90d23",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-MU",
+    "name": "Maluku Utara"
+  },
+  {
+    "id": "4c123d39-ab0d-4c46-8912-0074d72fcd71",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-PA",
+    "name": "Papua"
+  },
+  {
+    "id": "35738e07-d60a-496c-b4d3-0c364c738e8d",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-PB",
+    "name": "Papua Barat"
+  },
+  {
+    "id": "fedca265-2ac8-4b3b-939a-6358ccf1b6e8",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-PS",
+    "name": "Papua Selatan"
+  },
+  {
+    "id": "7c1efb89-87ac-49d5-9f63-6f4b33dca639",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-PT",
+    "name": "Papua Tengah"
+  },
+  {
+    "id": "b2a8316d-4df5-4594-8ce0-f6171d84ebca",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-PE",
+    "name": "Papua Pegunungan"
+  },
+  {
+    "id": "d52cd9ef-abee-4c37-a04c-280cac01f476",
+    "countryId": "b0ffabc3-d325-4e8f-a6dc-1ca7f7d4338b",
+    "key": "ID-PD",
+    "name": "Papua Barat Daya"
+  }
+]

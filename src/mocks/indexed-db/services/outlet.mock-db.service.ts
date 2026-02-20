@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { db } from '../app.db';
-import { Store } from '../../../app/features/store/models/store.model';
 import { v4 as uuid } from 'uuid';
 import { Outlet } from '../../../app/features/outlet/models/outlet.model';
 

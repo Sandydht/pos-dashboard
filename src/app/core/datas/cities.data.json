@@ -1,7 +1,686 @@
 [
   {
-    "id": "",
-    "code": "",
-    "name": ""
+    "id": "31b10e0a-0327-42cd-9c08-162716a8c42c",
+    "provinceId": "9c9c26e0-0e71-48fc-aca9-95c4a2f0db8f",
+    "key": "banda-aceh",
+    "name": "Banda Aceh"
+  },
+  {
+    "id": "17b2b9f1-8abe-4f3a-a160-61ac54cc30ec",
+    "provinceId": "9c9c26e0-0e71-48fc-aca9-95c4a2f0db8f",
+    "key": "langsa",
+    "name": "Langsa"
+  },
+  {
+    "id": "a7f29c7c-c01d-471f-9cdc-6261e50eae73",
+    "provinceId": "9c9c26e0-0e71-48fc-aca9-95c4a2f0db8f",
+    "key": "lhokseumawe",
+    "name": "Lhokseumawe"
+  },
+  {
+    "id": "21bd8d8e-1933-4b13-aee8-a134b6b1657f",
+    "provinceId": "1a78866c-3407-4d44-a1b1-be0c98aef015",
+    "key": "medan",
+    "name": "Medan"
+  },
+  {
+    "id": "d2b37343-2a8c-45c5-8987-f8ad09dcc77c",
+    "provinceId": "1a78866c-3407-4d44-a1b1-be0c98aef015",
+    "key": "binjai",
+    "name": "Binjai"
+  },
+  {
+    "id": "c9a7e96a-fe72-4c80-b5eb-b90249ea168c",
+    "provinceId": "1a78866c-3407-4d44-a1b1-be0c98aef015",
+    "key": "pematangsiantar",
+    "name": "Pematangsiantar"
+  },
+  {
+    "id": "d0eae57e-a675-46f3-8803-555e011841c6",
+    "provinceId": "20839b30-6d66-47be-b977-0ae26af9f0c6",
+    "key": "padang",
+    "name": "Padang"
+  },
+  {
+    "id": "1beb9af2-8ce6-4821-9fff-e10b6ac6f918",
+    "provinceId": "20839b30-6d66-47be-b977-0ae26af9f0c6",
+    "key": "bukittinggi",
+    "name": "Bukittinggi"
+  },
+  {
+    "id": "dc5651e2-0032-4294-941f-ee60f8d8f21e",
+    "provinceId": "20839b30-6d66-47be-b977-0ae26af9f0c6",
+    "key": "payakumbuh",
+    "name": "Payakumbuh"
+  },
+  {
+    "id": "21eb1699-5902-4f8d-82cb-d57f58e2b530",
+    "provinceId": "5361ba35-aab0-4f62-abd8-81de6d480db0",
+    "key": "pekanbaru",
+    "name": "Pekanbaru"
+  },
+  {
+    "id": "a69c500d-690f-47a0-811f-5b7b3340e997",
+    "provinceId": "5361ba35-aab0-4f62-abd8-81de6d480db0",
+    "key": "dumai",
+    "name": "Dumai"
+  },
+  {
+    "id": "232df2b8-547f-42d1-bb87-ea18e660ea83",
+    "provinceId": "5361ba35-aab0-4f62-abd8-81de6d480db0",
+    "key": "siak",
+    "name": "Siak"
+  },
+  {
+    "id": "9119aea1-29a9-4aaf-adaa-2e0c02e5f083",
+    "provinceId": "4743b425-4e9d-476d-ab10-91f51615e295",
+    "key": "batam",
+    "name": "Batam"
+  },
+  {
+    "id": "68666975-c7fa-4698-8987-0f1741823f69",
+    "provinceId": "4743b425-4e9d-476d-ab10-91f51615e295",
+    "key": "tanjungpinang",
+    "name": "Tanjungpinang"
+  },
+  {
+    "id": "ff6f739d-7320-44c2-837f-d41b0df3515f",
+    "provinceId": "4743b425-4e9d-476d-ab10-91f51615e295",
+    "key": "bintan",
+    "name": "Bintan"
+  },
+  {
+    "id": "28cc581c-c2e9-4fad-a946-380ebdb7aa63",
+    "provinceId": "87c0630b-72d7-4336-8454-6ffaed19b548",
+    "key": "jambi",
+    "name": "Jambi"
+  },
+  {
+    "id": "851d24bd-7b1c-45a9-ae5f-41ad78493d8f",
+    "provinceId": "87c0630b-72d7-4336-8454-6ffaed19b548",
+    "key": "sungai-penuh",
+    "name": "Sungai Penuh"
+  },
+  {
+    "id": "90868a31-e5f8-4362-84b7-35f2879f5025",
+    "provinceId": "87c0630b-72d7-4336-8454-6ffaed19b548",
+    "key": "muara-bungo",
+    "name": "Muara Bungo"
+  },
+  {
+    "id": "5bdda908-fe7a-40d7-af3d-e56013553939",
+    "provinceId": "643f19e1-8ff5-43a1-bdba-6b7bf6210522",
+    "key": "palembang",
+    "name": "Palembang"
+  },
+  {
+    "id": "1fe37ec6-3121-4657-ac8d-c76881b99dc2",
+    "provinceId": "643f19e1-8ff5-43a1-bdba-6b7bf6210522",
+    "key": "prabumulih",
+    "name": "Prabumulih"
+  },
+  {
+    "id": "5f7a9696-1209-4f4c-8b41-dfb2612c1833",
+    "provinceId": "643f19e1-8ff5-43a1-bdba-6b7bf6210522",
+    "key": "lubuklinggau",
+    "name": "Lubuklinggau"
+  },
+  {
+    "id": "359ac460-3f7c-47d1-a8e7-c6cc1fa25240",
+    "provinceId": "e9dcf1f9-7e62-408d-9580-09b117a7dbfe",
+    "key": "pangkalpinang",
+    "name": "Pangkalpinang"
+  },
+  {
+    "id": "df78745c-9e20-4786-86de-90bd03c17a0c",
+    "provinceId": "e9dcf1f9-7e62-408d-9580-09b117a7dbfe",
+    "key": "sungailiat",
+    "name": "Sungailiat"
+  },
+  {
+    "id": "7e63f80d-1710-406f-b7e9-827e6ac1d72e",
+    "provinceId": "e9dcf1f9-7e62-408d-9580-09b117a7dbfe",
+    "key": "tanjung-pandan",
+    "name": "Tanjung Pandan"
+  },
+  {
+    "id": "57223c44-dfa5-4b4d-9bc4-2d5802fd56f5",
+    "provinceId": "045640d6-c57c-40e8-93cb-6e7fc9e5203c",
+    "key": "bengkulu",
+    "name": "Bengkulu"
+  },
+  {
+    "id": "85cd276f-eb8d-4346-8a38-a7e6651cfd40",
+    "provinceId": "045640d6-c57c-40e8-93cb-6e7fc9e5203c",
+    "key": "curup",
+    "name": "Curup"
+  },
+  {
+    "id": "6d352e44-36d0-44d5-8ab3-70bb9fcb1f99",
+    "provinceId": "045640d6-c57c-40e8-93cb-6e7fc9e5203c",
+    "key": "mukomuko",
+    "name": "Mukomuko"
+  },
+  {
+    "id": "08da13cc-8891-46f9-a232-960d3088efa1",
+    "provinceId": "7601a631-28ee-42dc-958e-6ac4edd8cd1f",
+    "key": "bandar-lampung",
+    "name": "Bandar Lampung"
+  },
+  {
+    "id": "e84fa9c0-95f1-41a6-bc66-b9598a214b69",
+    "provinceId": "7601a631-28ee-42dc-958e-6ac4edd8cd1f",
+    "key": "metro",
+    "name": "Metro"
+  },
+  {
+    "id": "28a57a52-e81a-4410-8d6d-bceeb74934f7",
+    "provinceId": "7601a631-28ee-42dc-958e-6ac4edd8cd1f",
+    "key": "kotabumi",
+    "name": "Kotabumi"
+  },
+  {
+    "id": "32c9a67b-809d-4374-a5ba-1c643df0f0df",
+    "provinceId": "9aba6af4-f8c9-4c9f-8500-4a4d00ce7d1f",
+    "key": "jakarta-pusat",
+    "name": "Jakarta Pusat"
+  },
+  {
+    "id": "5a92bb57-0ac0-45b6-835f-4119e2cb5f73",
+    "provinceId": "9aba6af4-f8c9-4c9f-8500-4a4d00ce7d1f",
+    "key": "jakarta-utara",
+    "name": "Jakarta Utara"
+  },
+  {
+    "id": "0c808470-9bbd-49a1-a9cd-2a949cac244a",
+    "provinceId": "9aba6af4-f8c9-4c9f-8500-4a4d00ce7d1f",
+    "key": "jakarta-selatan",
+    "name": "Jakarta Selatan"
+  },
+  {
+    "id": "2a9f51fa-93b7-48d8-ab1c-0f2910e1613c",
+    "provinceId": "683c4e2a-9b4c-421f-b9d6-188e666b556b",
+    "key": "bandung",
+    "name": "Bandung"
+  },
+  {
+    "id": "bcce64e4-4934-4aa9-8405-d7c7f1b77a59",
+    "provinceId": "683c4e2a-9b4c-421f-b9d6-188e666b556b",
+    "key": "bekasi",
+    "name": "Bekasi"
+  },
+  {
+    "id": "345f0c99-1906-45a3-a769-2c6804977fc4",
+    "provinceId": "683c4e2a-9b4c-421f-b9d6-188e666b556b",
+    "key": "bogor",
+    "name": "Bogor"
+  },
+  {
+    "id": "30637946-cdff-43c9-a981-c434cc045d7d",
+    "provinceId": "b742a73f-5886-422a-9fad-8c0ea770f0fb",
+    "key": "semarang",
+    "name": "Semarang"
+  },
+  {
+    "id": "0770ed9c-d865-43ed-8e0a-f69c4552da22",
+    "provinceId": "b742a73f-5886-422a-9fad-8c0ea770f0fb",
+    "key": "surakarta",
+    "name": "Surakarta"
+  },
+  {
+    "id": "7d27fbee-df2f-4a63-aa43-ff13588f6bae",
+    "provinceId": "b742a73f-5886-422a-9fad-8c0ea770f0fb",
+    "key": "magelang",
+    "name": "Magelang"
+  },
+  {
+    "id": "4ce3b819-d084-46e3-bab7-d733169a46ab",
+    "provinceId": "522a867f-8b59-4f30-899c-50aa939c4114",
+    "key": "yogyakarta",
+    "name": "Yogyakarta"
+  },
+  {
+    "id": "acce544c-67bd-4743-af17-fb5aed23ac6d",
+    "provinceId": "522a867f-8b59-4f30-899c-50aa939c4114",
+    "key": "sleman",
+    "name": "Sleman"
+  },
+  {
+    "id": "cddc39fd-4786-4958-9e58-671cc68c3262",
+    "provinceId": "522a867f-8b59-4f30-899c-50aa939c4114",
+    "key": "bantul",
+    "name": "Bantul"
+  },
+  {
+    "id": "12e3d605-f2f6-4e71-8412-103c6e614be7",
+    "provinceId": "f190637b-e94d-4ca2-bc6d-a44e6e0ae4d7",
+    "key": "surabaya",
+    "name": "Surabaya"
+  },
+  {
+    "id": "1b996aba-eff1-4e80-ab37-d33e7d6e19a6",
+    "provinceId": "f190637b-e94d-4ca2-bc6d-a44e6e0ae4d7",
+    "key": "malang",
+    "name": "Malang"
+  },
+  {
+    "id": "9d37b2d9-bc92-4cd6-9955-77ce1b9bde73",
+    "provinceId": "f190637b-e94d-4ca2-bc6d-a44e6e0ae4d7",
+    "key": "kediri",
+    "name": "Kediri"
+  },
+  {
+    "id": "046625f3-4540-42e4-abcf-3682fc020510",
+    "provinceId": "2bb8c949-cc3c-4882-83bc-1bfdab8de554",
+    "key": "serang",
+    "name": "Serang"
+  },
+  {
+    "id": "7fab5789-3698-4b9a-8b6c-10e4d1f9168e",
+    "provinceId": "2bb8c949-cc3c-4882-83bc-1bfdab8de554",
+    "key": "cilegon",
+    "name": "Cilegon"
+  },
+  {
+    "id": "c227893a-c752-4f49-9f0d-82400ec3ca45",
+    "provinceId": "2bb8c949-cc3c-4882-83bc-1bfdab8de554",
+    "key": "tangerang",
+    "name": "Tangerang"
+  },
+  {
+    "id": "05407fc5-e8b6-4c4c-bc59-bd5a5c9edfee",
+    "provinceId": "8fbc97d0-5c5d-4d36-abac-22a151619377",
+    "key": "denpasar",
+    "name": "Denpasar"
+  },
+  {
+    "id": "81909009-96fe-423e-9f41-d0a2006e791c",
+    "provinceId": "8fbc97d0-5c5d-4d36-abac-22a151619377",
+    "key": "singaraja",
+    "name": "Singaraja"
+  },
+  {
+    "id": "924e7409-b5fd-437b-bc2f-b33c691c7b9d",
+    "provinceId": "8fbc97d0-5c5d-4d36-abac-22a151619377",
+    "key": "tabanan",
+    "name": "Tabanan"
+  },
+  {
+    "id": "4c24b4e4-23fe-44d2-8b36-f4328e553219",
+    "provinceId": "f45c78ca-22d3-4cb6-b8b8-cba6f487a482",
+    "key": "mataram",
+    "name": "Mataram"
+  },
+  {
+    "id": "9e4d654c-5c0a-4dd4-9d14-b7221176849d",
+    "provinceId": "f45c78ca-22d3-4cb6-b8b8-cba6f487a482",
+    "key": "bima",
+    "name": "Bima"
+  },
+  {
+    "id": "11238e3f-d343-449f-8a09-04c59dde7ad8",
+    "provinceId": "f45c78ca-22d3-4cb6-b8b8-cba6f487a482",
+    "key": "sumbawa-besar",
+    "name": "Sumbawa Besar"
+  },
+  {
+    "id": "eb620415-88a0-43b5-b74d-061a3863f340",
+    "provinceId": "0dfa3c19-a321-4cae-8543-72b8a1fe257a",
+    "key": "kupang",
+    "name": "Kupang"
+  },
+  {
+    "id": "cc93378d-9605-4710-921f-10efb71d8554",
+    "provinceId": "0dfa3c19-a321-4cae-8543-72b8a1fe257a",
+    "key": "maumere",
+    "name": "Maumere"
+  },
+  {
+    "id": "11fcb064-9f29-4699-a5f6-4c9dfafaad85",
+    "provinceId": "0dfa3c19-a321-4cae-8543-72b8a1fe257a",
+    "key": "ende",
+    "name": "Ende"
+  },
+  {
+    "id": "f22dc123-02f8-4dc0-b346-e48a4298efc1",
+    "provinceId": "b96ab43a-978b-4b9f-96ef-9b76c84e269b",
+    "key": "pontianak",
+    "name": "Pontianak"
+  },
+  {
+    "id": "f17e8878-0c0e-49e1-a92c-3d7dd5de0d55",
+    "provinceId": "b96ab43a-978b-4b9f-96ef-9b76c84e269b",
+    "key": "singkawang",
+    "name": "Singkawang"
+  },
+  {
+    "id": "8c0d7ed2-6f87-481d-8874-18413761426f",
+    "provinceId": "b96ab43a-978b-4b9f-96ef-9b76c84e269b",
+    "key": "ketapang",
+    "name": "Ketapang"
+  },
+  {
+    "id": "9a8b800f-0576-4726-ad61-12157b58af42",
+    "provinceId": "5a60898d-9e94-4e2d-91cc-7eeaa16ce27d",
+    "key": "palangka-raya",
+    "name": "Palangka Raya"
+  },
+  {
+    "id": "aa63384c-cd9f-4267-81db-e8b254cc26b9",
+    "provinceId": "5a60898d-9e94-4e2d-91cc-7eeaa16ce27d",
+    "key": "sampit",
+    "name": "Sampit"
+  },
+  {
+    "id": "4b9bd150-e743-4087-b429-7137e67cb62c",
+    "provinceId": "5a60898d-9e94-4e2d-91cc-7eeaa16ce27d",
+    "key": "pangkalan-bun",
+    "name": "Pangkalan Bun"
+  },
+  {
+    "id": "dc76a220-61a1-4747-bb8b-955c27075925",
+    "provinceId": "a29f3ea8-acb8-4cb2-9366-4e9462574889",
+    "key": "banjarmasin",
+    "name": "Banjarmasin"
+  },
+  {
+    "id": "e487fc8b-7e9d-4bd1-9053-c9bf2c9184c2",
+    "provinceId": "a29f3ea8-acb8-4cb2-9366-4e9462574889",
+    "key": "banjarbaru",
+    "name": "Banjarbaru"
+  },
+  {
+    "id": "086e90b3-c12c-40c1-bc8d-926bc10e760c",
+    "provinceId": "a29f3ea8-acb8-4cb2-9366-4e9462574889",
+    "key": "martapura",
+    "name": "Martapura"
+  },
+  {
+    "id": "b8fca5c0-8b67-45d2-a629-78560dd9638e",
+    "provinceId": "e1066c8f-fd87-4728-85bf-de1b55135eb9",
+    "key": "samarinda",
+    "name": "Samarinda"
+  },
+  {
+    "id": "5f71d2cc-f98f-4355-9e1d-036f70a78fc4",
+    "provinceId": "e1066c8f-fd87-4728-85bf-de1b55135eb9",
+    "key": "balikpapan",
+    "name": "Balikpapan"
+  },
+  {
+    "id": "6f164c84-04fa-4d0d-a8af-a66b0e50bb4e",
+    "provinceId": "e1066c8f-fd87-4728-85bf-de1b55135eb9",
+    "key": "bontang",
+    "name": "Bontang"
+  },
+  {
+    "id": "42e6ca3c-482d-4f91-9e7b-121c6faee97c",
+    "provinceId": "44fbf61f-8e8a-402b-a5ca-591066808bfd",
+    "key": "tarakan",
+    "name": "Tarakan"
+  },
+  {
+    "id": "431c4202-f914-4d0b-99be-db9f5da256c1",
+    "provinceId": "44fbf61f-8e8a-402b-a5ca-591066808bfd",
+    "key": "nunukan",
+    "name": "Nunukan"
+  },
+  {
+    "id": "f0edcf83-cfb3-4118-9a7e-8d671efbdb66",
+    "provinceId": "44fbf61f-8e8a-402b-a5ca-591066808bfd",
+    "key": "tanjung-selor",
+    "name": "Tanjung Selor"
+  },
+  {
+    "id": "c5cf9d50-d620-4b3d-aa20-8dffe25507e6",
+    "provinceId": "580d34a0-b65c-4b99-a7e3-951ff87d7ff7",
+    "key": "manado",
+    "name": "Manado"
+  },
+  {
+    "id": "64430818-de84-4c6b-a362-390d2addfbde",
+    "provinceId": "580d34a0-b65c-4b99-a7e3-951ff87d7ff7",
+    "key": "bitung",
+    "name": "Bitung"
+  },
+  {
+    "id": "a00396d1-2c89-423b-a053-71a7ae22580e",
+    "provinceId": "580d34a0-b65c-4b99-a7e3-951ff87d7ff7",
+    "key": "tomohon",
+    "name": "Tomohon"
+  },
+  {
+    "id": "4ae8890c-9ef7-4241-9407-cfaa243f61e2",
+    "provinceId": "8b44f340-3d1a-41d1-bd59-2c717bebe820",
+    "key": "gorontalo",
+    "name": "Gorontalo"
+  },
+  {
+    "id": "7ef204da-e8e5-4dc2-868e-8b78c348c89b",
+    "provinceId": "8b44f340-3d1a-41d1-bd59-2c717bebe820",
+    "key": "limboto",
+    "name": "Limboto"
+  },
+  {
+    "id": "903d243c-4741-4305-b0fe-0b13531b3532",
+    "provinceId": "8b44f340-3d1a-41d1-bd59-2c717bebe820",
+    "key": "marisa",
+    "name": "Marisa"
+  },
+  {
+    "id": "29e86743-1c36-4311-b86a-abcd10aa8d5c",
+    "provinceId": "a12705a0-c162-47df-93a1-7ecfb72678d6",
+    "key": "palu",
+    "name": "Palu"
+  },
+  {
+    "id": "18451f91-cdfb-40b1-999f-e1c12100cea6",
+    "provinceId": "a12705a0-c162-47df-93a1-7ecfb72678d6",
+    "key": "poso",
+    "name": "Poso"
+  },
+  {
+    "id": "c9ef0598-b18c-4690-8a07-e3c613b998f4",
+    "provinceId": "a12705a0-c162-47df-93a1-7ecfb72678d6",
+    "key": "luwuk",
+    "name": "Luwuk"
+  },
+  {
+    "id": "6eb7a200-f0a5-4e43-926d-c2012f9b4f48",
+    "provinceId": "f0c95880-c28c-4ae1-b3df-176e5214bb1f",
+    "key": "mamuju",
+    "name": "Mamuju"
+  },
+  {
+    "id": "3fe9b55a-bc02-438e-9796-9f944b8cb0e5",
+    "provinceId": "f0c95880-c28c-4ae1-b3df-176e5214bb1f",
+    "key": "majene",
+    "name": "Majene"
+  },
+  {
+    "id": "3dba9c19-40e6-4384-b882-649a8f4a9a2c",
+    "provinceId": "f0c95880-c28c-4ae1-b3df-176e5214bb1f",
+    "key": "polewali",
+    "name": "Polewali"
+  },
+  {
+    "id": "2093aaf3-fc26-4007-8541-e86326255864",
+    "provinceId": "0fb2ad34-d05c-4d36-a41d-6f9936d551b6",
+    "key": "makassar",
+    "name": "Makassar"
+  },
+  {
+    "id": "ff7741fd-16c5-4449-bd76-3ff0c7e3f92d",
+    "provinceId": "0fb2ad34-d05c-4d36-a41d-6f9936d551b6",
+    "key": "parepare",
+    "name": "Parepare"
+  },
+  {
+    "id": "eef6cd00-62ac-4f2b-a52c-6e7d798f70f5",
+    "provinceId": "0fb2ad34-d05c-4d36-a41d-6f9936d551b6",
+    "key": "palopo",
+    "name": "Palopo"
+  },
+  {
+    "id": "a5a0f4c4-f88a-40eb-8886-d8720d9bead8",
+    "provinceId": "0e7a7263-ce99-4bdb-8bfb-6f223f9526fa",
+    "key": "kendari",
+    "name": "Kendari"
+  },
+  {
+    "id": "bc3b3d60-0b1f-4831-95ca-66dd2a5def8e",
+    "provinceId": "0e7a7263-ce99-4bdb-8bfb-6f223f9526fa",
+    "key": "baubau",
+    "name": "Baubau"
+  },
+  {
+    "id": "afcb7302-df86-4f0a-a649-4c1e93719b5a",
+    "provinceId": "0e7a7263-ce99-4bdb-8bfb-6f223f9526fa",
+    "key": "kolaka",
+    "name": "Kolaka"
+  },
+  {
+    "id": "4be294ef-3414-4bb1-b5a4-40a586cb7016",
+    "provinceId": "e87c77e9-129b-4741-9ba0-ce6c930620e2",
+    "key": "ambon",
+    "name": "Ambon"
+  },
+  {
+    "id": "9c663ffb-ffa1-47a6-ae76-c81ab886f467",
+    "provinceId": "e87c77e9-129b-4741-9ba0-ce6c930620e2",
+    "key": "tual",
+    "name": "Tual"
+  },
+  {
+    "id": "650066de-636e-49fa-8413-fad74103ce35",
+    "provinceId": "e87c77e9-129b-4741-9ba0-ce6c930620e2",
+    "key": "masohi",
+    "name": "Masohi"
+  },
+  {
+    "id": "7f3966ec-efdb-47c5-80a4-9eb90ff4072a",
+    "provinceId": "40c546a6-c824-4dc7-bb75-fcfb66b90d23",
+    "key": "ternate",
+    "name": "Ternate"
+  },
+  {
+    "id": "bcbe1bfd-614a-497c-88b6-9ea780abc4e9",
+    "provinceId": "40c546a6-c824-4dc7-bb75-fcfb66b90d23",
+    "key": "tidore",
+    "name": "Tidore"
+  },
+  {
+    "id": "834d9ff3-902a-4007-b427-d72f621ac818",
+    "provinceId": "40c546a6-c824-4dc7-bb75-fcfb66b90d23",
+    "key": "sofifi",
+    "name": "Sofifi"
+  },
+  {
+    "id": "dee4a174-50b3-41eb-b952-308c3f2a1824",
+    "provinceId": "4c123d39-ab0d-4c46-8912-0074d72fcd71",
+    "key": "jayapura",
+    "name": "Jayapura"
+  },
+  {
+    "id": "9b3e9040-639b-4cc4-9fee-729645e62413",
+    "provinceId": "4c123d39-ab0d-4c46-8912-0074d72fcd71",
+    "key": "biak",
+    "name": "Biak"
+  },
+  {
+    "id": "1d093ce0-755e-4ecb-a042-09dbee770ac6",
+    "provinceId": "4c123d39-ab0d-4c46-8912-0074d72fcd71",
+    "key": "serui",
+    "name": "Serui"
+  },
+  {
+    "id": "ff82325b-22f8-44c0-9040-3f326b1fea12",
+    "provinceId": "35738e07-d60a-496c-b4d3-0c364c738e8d",
+    "key": "manokwari",
+    "name": "Manokwari"
+  },
+  {
+    "id": "3da5b320-33ef-4d27-ac5b-5aad8a4a34db",
+    "provinceId": "35738e07-d60a-496c-b4d3-0c364c738e8d",
+    "key": "sorong",
+    "name": "Sorong"
+  },
+  {
+    "id": "0052f7a9-cc9a-4a23-ad43-9a4766b9c495",
+    "provinceId": "35738e07-d60a-496c-b4d3-0c364c738e8d",
+    "key": "fakfak",
+    "name": "Fakfak"
+  },
+  {
+    "id": "2f624d5a-6786-4958-8233-477f9bff6ce3",
+    "provinceId": "fedca265-2ac8-4b3b-939a-6358ccf1b6e8",
+    "key": "merauke",
+    "name": "Merauke"
+  },
+  {
+    "id": "62145ae6-b6b5-4b01-8d95-f7f327b37e75",
+    "provinceId": "fedca265-2ac8-4b3b-939a-6358ccf1b6e8",
+    "key": "asmat",
+    "name": "Asmat"
+  },
+  {
+    "id": "f7addd87-3978-4b5b-9725-36d94808fbeb",
+    "provinceId": "fedca265-2ac8-4b3b-939a-6358ccf1b6e8",
+    "key": "mappi",
+    "name": "Mappi"
+  },
+  {
+    "id": "f7b6bfc2-183c-406b-afbd-f957d1128a62",
+    "provinceId": "7c1efb89-87ac-49d5-9f63-6f4b33dca639",
+    "key": "nabire",
+    "name": "Nabire"
+  },
+  {
+    "id": "170432cb-90fc-4e1c-a5ea-e0e6bff38e02",
+    "provinceId": "7c1efb89-87ac-49d5-9f63-6f4b33dca639",
+    "key": "timika",
+    "name": "Timika"
+  },
+  {
+    "id": "a465281c-ad7b-4442-8ac5-b84c96d40299",
+    "provinceId": "7c1efb89-87ac-49d5-9f63-6f4b33dca639",
+    "key": "paniai",
+    "name": "Paniai"
+  },
+  {
+    "id": "7686e2f3-b1c6-4754-b87a-2688ff6bef8c",
+    "provinceId": "b2a8316d-4df5-4594-8ce0-f6171d84ebca",
+    "key": "wamena",
+    "name": "Wamena"
+  },
+  {
+    "id": "dea5ccff-a82e-4c7e-b218-228f6705114d",
+    "provinceId": "b2a8316d-4df5-4594-8ce0-f6171d84ebca",
+    "key": "yahukimo",
+    "name": "Yahukimo"
+  },
+  {
+    "id": "0d8c1aba-bb38-4ccf-8085-23f67900e3fb",
+    "provinceId": "b2a8316d-4df5-4594-8ce0-f6171d84ebca",
+    "key": "tolikara",
+    "name": "Tolikara"
+  },
+  {
+    "id": "5cdaa7af-e4de-44d6-8d26-d579c6446bf6",
+    "provinceId": "d52cd9ef-abee-4c37-a04c-280cac01f476",
+    "key": "sorong",
+    "name": "Sorong"
+  },
+  {
+    "id": "5b8635a9-4e4a-4983-b19d-8aec5020324d",
+    "provinceId": "d52cd9ef-abee-4c37-a04c-280cac01f476",
+    "key": "raja-ampat",
+    "name": "Raja Ampat"
+  },
+  {
+    "id": "b305549f-ca6d-47c4-90de-5267c059ece7",
+    "provinceId": "d52cd9ef-abee-4c37-a04c-280cac01f476",
+    "key": "maybrat",
+    "name": "Maybrat"
   }
 ]

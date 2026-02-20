@@ -27,17 +27,17 @@
         <div
           class="w-full h-auto max-h-[200px] overflow-y-auto absolute mt-1 bg-white rounded-lg border border-gray-100 shadow-md flex flex-col items-start justify-start"
         >
-          @for (country of countries; track $index) {
+          @for (option of options(); track $index) {
             <button
               type="button"
               class="w-full h-auto px-4 py-2 text-left text-[12px] leading-[16px] cursor-pointer border-b border-gray-200 last:border-0"
               [ngClass]="{
-                'bg-[var(--color-primary-500)] text-white': internalValue() === country.key,
-                'hover:bg-gray-100 text-black': internalValue() !== country.key,
+                'bg-[var(--color-primary-500)] text-white': internalValue() === option.key,
+                'hover:bg-gray-100 text-black': internalValue() !== option.key,
               }"
-              (click)="handleSelectItem(country.key)"
+              (click)="handleSelectItem(option.key)"
             >
-              {{ country.label }}
+              {{ option.label }}
             </button>
           }
         </div>
