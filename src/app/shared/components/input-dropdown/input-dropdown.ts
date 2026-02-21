@@ -60,11 +60,12 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   loadMore = output<void>();
   hasMore = input<boolean>(true);
   isLoadingMore = input<boolean>(false);
-  private loadMoreSubject = new Subject<void>();
+  loadMoreSubject = new Subject<void>();
 
-  private searchSubject = new Subject<string>();
+  searchSubject = new Subject<string>();
   searchKeyword = signal<string>('');
   search = output<string>();
+  selectedOption = signal<InputDropdownOption | null>(null);
 
   constructor() {
     effect(() => {
@@ -83,6 +84,21 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
       }
     });
 
+    this.setupLoadMoreListener();
+    this.setupSearchListener();
+  }
+
+  ngAfterViewInit(): void {
+    this.initObserver();
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+
+  setupLoadMoreListener(): void {
     this.loadMoreSubject
       .pipe(
         debounceTime(300),
@@ -93,17 +109,15 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
       .subscribe(() => {
         this.loadMore.emit();
       });
+  }
 
+  setupSearchListener(): void {
     this.searchSubject
       .pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
       .subscribe((keyword) => {
         this.searchKeyword.set(keyword);
         this.search.emit(keyword);
       });
-  }
-
-  ngAfterViewInit(): void {
-    this.initObserver();
   }
 
   initObserver() {
@@ -128,17 +142,16 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer.disconnect();
-    }
-  }
-
   private onChange: (value: string) => void = () => {};
   private onTouches: () => void = () => {};
 
   writeValue(value: string): void {
     this.internalValue.set(value);
+
+    const found = this.options().find((o) => o.id === value);
+    if (found) {
+      this.selectedOption.set(found);
+    }
   }
 
   registerOnChange(fn: (value: string) => void): void {
@@ -168,6 +181,9 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   }
 
   handleSelectItem(value: string): void {
+    const option = this.options().find((o) => o.id === value) || null;
+    this.selectedOption.set(option);
+
     this.internalValue.set(value);
     this.onChange(value);
     this.closeDropdown();
@@ -209,13 +225,8 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   isDisabled = computed(() => this.disabled() || this.disabledSignal());
 
   selectedInternalValue = computed(() => {
+    if (this.selectedOption()) return this.selectedOption()!.label;
     if (!this.internalValue()) return this.placeholder();
-
-    const findOption = this.options().find(
-      (option: InputDropdownOption) => option.id === this.internalValue(),
-    );
-    if (!findOption) return this.placeholder();
-
-    return findOption.label;
+    return this.placeholder();
   });
 }
