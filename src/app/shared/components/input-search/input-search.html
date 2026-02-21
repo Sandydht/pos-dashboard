@@ -1,0 +1,17 @@
+<div class="w-full h-fit relative">
+  <img
+    src="assets/images/svg/search_24px_tertiary_500.svg"
+    alt="Search icon"
+    class="w-full h-full aspect-square max-w-[20px] max-h-[20px] object-contain object-center absolute left-4 top-1/2 -translate-y-1/2"
+  />
+  <input
+    [id]="id()"
+    type="search"
+    [class]="inputClasses()"
+    [placeholder]="placeholder()"
+    [value]="internalValue()"
+    [disabled]="isDisabled()"
+    (input)="handleInput($event)"
+    (blur)="handleBlur()"
+  />
+</div>

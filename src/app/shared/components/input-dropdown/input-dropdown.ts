@@ -1,11 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, forwardRef, input, output, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  ElementRef,
+  forwardRef,
+  inject,
+  input,
+  OnDestroy,
+  output,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputDropdownOption } from '../../models/input-dropdown-option.model';
+import { ClickOutsideDirective } from '../../directives/click-outside-directive/click-outside-directive';
+import { debounceTime, filter, Subject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { InputSearchComponent } from '../input-search/input-search';
 
 @Component({
   selector: 'app-input-dropdown',
-  imports: [CommonModule],
+  imports: [CommonModule, ClickOutsideDirective, InputSearchComponent],
   templateUrl: './input-dropdown.html',
   styleUrl: './input-dropdown.css',
   providers: [
@@ -16,7 +34,9 @@ import { InputDropdownOption } from '../../models/input-dropdown-option.model';
     },
   ],
 })
-export class InputDropdownComponent implements ControlValueAccessor {
+export class InputDropdownComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
+  private readonly destroyRef = inject(DestroyRef);
+
   id = input<string>('input-component');
   label = input<string>('Label');
   required = input<boolean>(false);
@@ -24,12 +44,95 @@ export class InputDropdownComponent implements ControlValueAccessor {
   disabled = input<boolean>(false);
   error = input<string>('');
   options = input<InputDropdownOption[]>([]);
+  searchPlaceholder = input<string>('');
+  enableSearch = input<boolean>(false);
 
   valueChange = output<string>();
 
   internalValue = signal<string>('');
   disabledSignal = signal(false);
   isOpenDropdown = signal<boolean>(false);
+
+  @ViewChild('sentinel') sentinel?: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
+
+  observer?: IntersectionObserver;
+  loadMore = output<void>();
+  hasMore = input<boolean>(true);
+  isLoadingMore = input<boolean>(false);
+  private loadMoreSubject = new Subject<void>();
+
+  private searchSubject = new Subject<string>();
+  searchKeyword = signal<string>('');
+  search = output<string>();
+
+  constructor() {
+    effect(() => {
+      if (this.isOpenDropdown()) {
+        setTimeout(() => {
+          this.initObserver();
+        });
+      }
+    });
+
+    effect(() => {
+      if (!this.isLoadingMore() && this.isOpenDropdown()) {
+        setTimeout(() => {
+          this.initObserver();
+        });
+      }
+    });
+
+    this.loadMoreSubject
+      .pipe(
+        debounceTime(300),
+        filter(() => this.hasMore()),
+        filter(() => !this.isLoadingMore()),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.loadMore.emit();
+      });
+
+    this.searchSubject
+      .pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
+      .subscribe((keyword) => {
+        this.searchKeyword.set(keyword);
+        this.search.emit(keyword);
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.initObserver();
+  }
+
+  initObserver() {
+    if (!this.scrollContainer || !this.sentinel) return;
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+
+        if (entry.isIntersecting && this.hasMore() && !this.isLoadingMore()) {
+          this.loadMoreSubject.next();
+        }
+      },
+      {
+        root: this.scrollContainer.nativeElement,
+        threshold: 0.1,
+      },
+    );
+
+    if (this.sentinel) {
+      this.observer.observe(this.sentinel.nativeElement);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
 
   private onChange: (value: string) => void = () => {};
   private onTouches: () => void = () => {};
@@ -57,12 +160,21 @@ export class InputDropdownComponent implements ControlValueAccessor {
   closeDropdown(): void {
     this.isOpenDropdown.set(false);
     this.onTouches();
+
+    if (this.enableSearch()) {
+      this.searchKeyword.set('');
+      this.searchSubject.next(''); // trigger parent reset
+    }
   }
 
   handleSelectItem(value: string): void {
     this.internalValue.set(value);
     this.onChange(value);
     this.closeDropdown();
+  }
+
+  handleSearch(keyword: string): void {
+    this.searchSubject.next(keyword);
   }
 
   buttonClasses = computed(() => {
@@ -79,7 +191,7 @@ export class InputDropdownComponent implements ControlValueAccessor {
 
     if (this.isDisabled()) return `${baseStyle} ${disabledStyle}`;
     if (this.error()) return `${baseStyle} ${errorStyle}`;
-    if (this.placeholder()) return `${baseStyle} ${placeholderStyle}`;
+    if (this.placeholder() && !this.internalValue()) return `${baseStyle} ${placeholderStyle}`;
 
     return `${baseStyle} ${normalStyle}`;
   });
@@ -100,10 +212,10 @@ export class InputDropdownComponent implements ControlValueAccessor {
     if (!this.internalValue()) return this.placeholder();
 
     const findOption = this.options().find(
-      (option: InputDropdownOption) => option.key === this.internalValue(),
+      (option: InputDropdownOption) => option.id === this.internalValue(),
     );
     if (!findOption) return this.placeholder();
 
-    return findOption;
+    return findOption.label;
   });
 }

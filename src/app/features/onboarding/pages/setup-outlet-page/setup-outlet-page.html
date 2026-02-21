@@ -68,32 +68,44 @@
 
         <div class="w-full h-auto">
           <app-input-dropdown
-            id="country"
+            id="outletCountry"
             label="Country"
-            placeholder="e.g. Indonesia"
+            placeholder="Choose Country"
             [required]="true"
             formControlName="outletCountry"
+            [options]="countriesOption()"
           ></app-input-dropdown>
         </div>
 
         <div class="w-full h-auto">
-          <app-input
-            id="province"
+          <app-input-dropdown
+            id="outletProvince"
             label="Province"
-            placeholder="e.g. DKI Jakarta"
+            placeholder="Choose Province"
             [required]="true"
             formControlName="outletProvince"
-          ></app-input>
+            [options]="provincesOption()"
+            [hasMore]="paginationMetaProvinces().hasNextPage"
+            [isLoadingMore]="fetchProvincesOptionLoading()"
+            searchPlaceholder="Search Province..."
+            [enableSearch]="true"
+            (search)="handleProvinceSearch($event)"
+            (loadMore)="loadMoreProvincesOption()"
+          ></app-input-dropdown>
         </div>
 
         <div class="w-full h-auto">
-          <app-input
-            id="city"
+          <app-input-dropdown
+            id="outletCity"
             label="City"
-            placeholder="e.g. Jakarta Selatan"
+            placeholder="Choose City"
             [required]="true"
             formControlName="outletCity"
-          ></app-input>
+            [options]="provincesOption()"
+            [hasMore]="paginationMetaProvinces().hasNextPage"
+            [isLoadingMore]="fetchProvincesOptionLoading()"
+            (loadMore)="loadMoreProvincesOption()"
+          ></app-input-dropdown>
         </div>
 
         <div class="w-full h-auto">

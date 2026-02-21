@@ -7,9 +7,9 @@ export interface Outlet {
   name: string;
   phoneNumber: string;
   email: string;
-  country: string;
-  province: string;
-  city: string;
+  countryId: string;
+  provinceId: string;
+  cityId: string;
   postalCode: string;
   address: string;
   isActive: boolean;

@@ -2,7 +2,6 @@ import { http, HttpResponse } from 'msw';
 import { CreateOutletRequest } from '../../app/features/outlet/models/create-outlet-request.model';
 import { decrypt } from '../utils/crypto';
 import { db } from '../indexed-db/app.db';
-import { outletMockDbService } from '../indexed-db/services/outlet.mock-db.service';
 
 export const outletHandlers = [
   http.post('/api/outlet/create', async ({ request }) => {
@@ -30,15 +29,6 @@ export const outletHandlers = [
       return HttpResponse.json({ message: 'Outlet already exist' }, { status: 400 });
     }
 
-    const now = new Date().toISOString();
-    const newOutlet = await outletMockDbService.create({
-      ...body,
-      storeId: findStoreByOwnerId.id,
-      createdAt: now,
-      updatedAt: null,
-      deletedAt: null,
-    });
-
-    return HttpResponse.json(newOutlet, { status: 201 });
+    return HttpResponse.json({ message: 'success' }, { status: 201 });
   }),
 ];

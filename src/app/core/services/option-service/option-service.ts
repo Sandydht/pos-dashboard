@@ -22,7 +22,7 @@ export class OptionService {
       .set('page', String(payload.page ?? 1))
       .set('size', String(payload.size ?? 10))
       .set('sortBy', payload.sortBy ?? 'name')
-      .set('sortOrder', payload.sortOrder ?? 'desc');
+      .set('sortOrder', payload.sortOrder ?? 'asc');
 
     if (payload.search) {
       params = params.set('search', payload.search);
@@ -34,7 +34,7 @@ export class OptionService {
   getCountriesOption(): Observable<Country[]> {
     if (!this.countries$) {
       this.countries$ = this.http
-        .get<Country[]>(`${this.apiUrl}/api/countries`)
+        .get<Country[]>(`${this.apiUrl}/countries`)
         .pipe(shareReplay({ bufferSize: 1, refCount: true }));
     }
 
@@ -47,16 +47,15 @@ export class OptionService {
   ): Observable<PaginatedResult<Province>> {
     const params = this.buildPaginationParams(payload);
     return this.http.get<PaginatedResult<Province>>(
-      `${this.apiUrl}/api/countries/${countryId}/provinces`,
+      `${this.apiUrl}/countries/${countryId}/provinces`,
       { params },
     );
   }
 
   getCitiesOption(provinceId: string, payload: PaginationQuery): Observable<PaginatedResult<City>> {
     const params = this.buildPaginationParams(payload);
-    return this.http.get<PaginatedResult<City>>(
-      `${this.apiUrl}/api/provinces/${provinceId}/cities`,
-      { params },
-    );
+    return this.http.get<PaginatedResult<City>>(`${this.apiUrl}/provinces/${provinceId}/cities`, {
+      params,
+    });
   }
 }

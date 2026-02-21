@@ -1,4 +1,4 @@
-import { bodyType, http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { decrypt } from '../utils/crypto';
 import { db } from '../indexed-db/app.db';
 import { OnboardingStatus } from '../../app/features/onboarding/models/onboarding-status.model';
