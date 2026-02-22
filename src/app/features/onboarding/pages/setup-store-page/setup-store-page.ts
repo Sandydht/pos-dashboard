@@ -124,6 +124,7 @@ export class SetupStorePage implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
+          this.setupStoreForm.reset();
           this.submitSetupStoreLoading.set(false);
           this.router.navigate(['/onboarding', 'setup-outlet']);
         },

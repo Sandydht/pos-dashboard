@@ -26,6 +26,7 @@ import { Store } from '@ngrx/store';
 import { getFormErrorMessage } from '../../../../shared/utils/form-error';
 import { InputOpeningHoursComponent } from '../../../../shared/components/input-opening-hours/input-opening-hours';
 import { OpeningHours } from '../../../outlet/models/opening-hours.model';
+import { OnboardingCreateOutletRequest } from '../../models/onboarding-create-outlet-request.model';
 
 @Component({
   selector: 'app-setup-outlet-page',
@@ -140,6 +141,14 @@ export class SetupOutletPage implements OnInit {
   ngOnInit(): void {
     this.fetchGetOutletDetail();
     this.fetchCountriesOption();
+
+    if (this.setupOutletForm.controls.outletCountry.value) {
+      this.fetchProvinceOption(this.setupOutletForm.controls.outletCountry.value);
+    }
+
+    if (this.setupOutletForm.controls.outletProvince.value) {
+      this.fetchCitiesOption(this.setupOutletForm.controls.outletProvince.value);
+    }
   }
 
   get outletCodeError(): string {
@@ -432,8 +441,38 @@ export class SetupOutletPage implements OnInit {
     }
 
     this.submitSetupOutletLoading.set(true);
-    console.log(this.setupOutletForm.value);
-    this.submitSetupOutletLoading.set(false);
+    const payload: OnboardingCreateOutletRequest = {
+      code: this.setupOutletForm.controls.outletCode.value,
+      name: this.setupOutletForm.controls.outletName.value,
+      phoneNumber: this.setupOutletForm.controls.outletPhoneNumber.value,
+      email: this.setupOutletForm.controls.outletEmail.value,
+      countryId: this.setupOutletForm.controls.outletCountry.value,
+      provinceId: this.setupOutletForm.controls.outletProvince.value,
+      cityId: this.setupOutletForm.controls.outletCity.value,
+      postalCode: this.setupOutletForm.controls.outletPostalCode.value,
+      address: this.setupOutletForm.controls.outletAddress.value,
+      openingHours: this.setupOutletForm.controls.outletOpeningHours.value,
+    };
+
+    this.onboardingService
+      .createOutlet(payload)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.setupOutletForm.reset();
+          this.submitSetupOutletLoading.set(false);
+          this.router.navigate(['/onboarding', 'setup-product-and-catalog']);
+        },
+        error: (err) => {
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
+          this.submitSetupOutletLoading.set(false);
+        },
+      });
   }
 
   countriesOption = computed<InputDropdownOption[]>(() => {

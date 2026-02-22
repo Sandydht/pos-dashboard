@@ -6,6 +6,7 @@ import { catchError, Observable, of, shareReplay, tap } from 'rxjs';
 import { Store } from '../../../features/store/models/store.model';
 import { OnboardingCreateStoreRequest } from '../../../features/onboarding/models/onboarding-create-store-request.model';
 import { Outlet } from '../../../features/outlet/models/outlet.model';
+import { OnboardingCreateOutletRequest } from '../../../features/onboarding/models/onboarding-create-outlet-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +38,9 @@ export class OnboardingService {
 
   getOutletDetail(): Observable<Outlet> {
     return this.http.get<Outlet>(`${this.apiUrl}/onboarding/outlet-detail`);
+  }
+
+  createOutlet(payload: OnboardingCreateOutletRequest): Observable<Outlet> {
+    return this.http.post<Outlet>(`${this.apiUrl}/onboarding/create-outlet`, payload);
   }
 }
