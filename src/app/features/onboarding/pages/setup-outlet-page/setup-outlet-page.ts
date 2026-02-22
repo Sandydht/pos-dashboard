@@ -23,6 +23,8 @@ import { SortOrder } from '../../../../shared/models/sort-order.model';
 import { City } from '../../../../shared/models/city.model';
 import * as SnackbarActions from '../../../../shared/components/snackbar/store/snackbar.actions';
 import { Store } from '@ngrx/store';
+import { getFormErrorMessage } from '../../../../shared/utils/form-error';
+import { InputOpeningHoursComponent } from '../../../../shared/components/input-opening-hours/input-opening-hours';
 
 @Component({
   selector: 'app-setup-outlet-page',
@@ -34,6 +36,7 @@ import { Store } from '@ngrx/store';
     StepHeaderComponent,
     ReactiveFormsModule,
     InputDropdownComponent,
+    InputOpeningHoursComponent,
   ],
   providers: [GenerateUppercaseSlugPipe],
   templateUrl: './setup-outlet-page.html',
@@ -138,6 +141,62 @@ export class SetupOutletPage implements OnInit {
     this.fetchCountriesOption();
   }
 
+  get outletCodeError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletCode, {
+      required: 'Code is required',
+    });
+  }
+
+  get outletNameError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletCode, {
+      required: 'Name is required',
+    });
+  }
+
+  get outletEmailError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletCode, {
+      required: 'Email is required',
+      email: 'Email is invalid',
+    });
+  }
+
+  get outletPhoneNumberError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+      required: 'Phone Number is required',
+      isIndonesianPhoneNumber: 'Phone Number must be a valid Indonesian number (08xxx or +62xxx)',
+    });
+  }
+
+  get outletCountryError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+      required: 'Country is required',
+    });
+  }
+
+  get outletProvinceError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+      required: 'Province is required',
+    });
+  }
+
+  get outletCityError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+      required: 'City is required',
+    });
+  }
+
+  get outletPostalCodeError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+      required: 'Postal Code is required',
+    });
+  }
+
+  get outletAddressError(): string {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+      required: 'Address is required',
+    });
+  }
+
   listenToOutletNameChanges(): void {
     this.setupOutletForm.controls.outletName.valueChanges.subscribe((value) => {
       const code = this.generateUppercaseSlug.transform(value);
@@ -196,7 +255,7 @@ export class SetupOutletPage implements OnInit {
     return this.formBuilder.nonNullable.group({
       open: ['08:00', Validators.required],
       close: ['17:00', Validators.required],
-      isClosed: ['false'],
+      isClosed: [false],
     });
   }
 

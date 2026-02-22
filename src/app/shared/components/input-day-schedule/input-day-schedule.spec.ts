@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InputCheckbox } from './input-checkbox';
+import { InputDayScheduleComponent } from './input-day-schedule';
 
-describe('InputCheckbox', () => {
-  let component: InputCheckbox;
-  let fixture: ComponentFixture<InputCheckbox>;
+describe('InputDayScheduleComponent', () => {
+  let component: InputDayScheduleComponent;
+  let fixture: ComponentFixture<InputDayScheduleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InputCheckbox],
+      imports: [InputDayScheduleComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InputCheckbox);
+    fixture = TestBed.createComponent(InputDayScheduleComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

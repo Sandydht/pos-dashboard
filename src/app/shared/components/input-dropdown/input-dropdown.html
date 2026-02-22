@@ -26,7 +26,7 @@
       @if (isOpenDropdown()) {
         <div
           #scrollContainer
-          class="w-full h-auto max-h-[267px] absolute mt-1 bg-white rounded-lg border border-gray-100 shadow-md flex flex-col items-start justify-start z-30"
+          class="w-full h-auto max-h-[267px] absolute mt-1 bg-white rounded-lg border border-gray-100 shadow-md flex flex-col items-start justify-start z-30 overflow-hidden"
           appClickOutside
           (clickOutside)="closeDropdown()"
         >
@@ -49,10 +49,10 @@
                   class="w-full h-auto px-4 py-2 text-left text-[12px] leading-[16px] cursor-pointer border-b border-gray-200 last:border-0 transition-all duration-200 ease-out"
                   [ngClass]="{
                     'bg-[var(--color-primary-500)] text-white pointer-events-none':
-                      internalValue() === option.id,
-                    'hover:bg-gray-100 text-black': internalValue() !== option.id,
+                      internalValue()?.id === option.id,
+                    'hover:bg-gray-100 text-black': internalValue()?.id !== option.id,
                   }"
-                  [disabled]="internalValue() === option.id"
+                  [disabled]="internalValue()?.id === option.id"
                   (click)="handleSelectItem(option.id)"
                 >
                   {{ option.label }}

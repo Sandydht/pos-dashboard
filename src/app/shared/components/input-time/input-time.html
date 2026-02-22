@@ -1,0 +1,36 @@
+<div class="w-full h-auto relative">
+  <button type="button" [class]="buttonClasses()" (click)="toggleDropdown()">
+    <p class="text-center text-[12px] leading-[20px]">
+      {{ selectedInternalValue() }}
+    </p>
+
+    <img
+      src="assets/images/svg/access_time_24px_tertiary_500.svg"
+      alt="Access time icon"
+      class="w-full h-full aspect-square max-w-[20px] max-h-[20px]"
+    />
+  </button>
+
+  @if (isOpenDropdown()) {
+    <div
+      appClickOutside
+      class="w-full h-auto absolute mt-1 max-h-[200px] overflow-y-auto bg-white rounded-lg border border-gray-100 shadow-md z-30"
+      (clickOutside)="closeDropdown()"
+    >
+      @for (time of times(); track $index) {
+        <button
+          type="button"
+          class="w-full h-auto px-4 py-2 text-center text-[12px] leading-[16px] cursor-pointer border-b border-gray-200 last:border-0 transition-all duration-200 ease-out"
+          [ngClass]="{
+            'bg-[var(--color-primary-500)] text-white pointer-events-none':
+              internalValue() === time,
+            'hover:bg-gray-100 text-black': internalValue() !== time,
+          }"
+          (click)="handleSelectItem(time)"
+        >
+          {{ time }}
+        </button>
+      }
+    </div>
+  }
+</div>

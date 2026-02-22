@@ -52,7 +52,7 @@ export class SetupStorePage implements OnInit {
 
   get storeCodeError(): string {
     return getFormErrorMessage(this.setupStoreForm.controls.storeCode, {
-      required: 'Name is required',
+      required: 'Code is required',
     });
   }
 

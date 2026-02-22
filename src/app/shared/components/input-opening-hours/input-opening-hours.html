@@ -1,0 +1,19 @@
+<div class="w-full h-auto flex flex-col items-start justify-start gap-1.5">
+  <label [htmlFor]="id()" class="text-left text-[12px] leading-[16px] font-semibold text-black">
+    {{ label() }}
+
+    @if (required()) {
+      <span class="text-[var(--color-error)]">*</span>
+    }
+  </label>
+
+  <div
+    class="w-full h-auto flex flex-col items-start justify-start gap-2 rounded-lg border border-[var(--color-tertiary-500)] p-4"
+  >
+    @for (day of internalValue() | keyvalue; track day.key) {
+      <div class="w-full h-auto">
+        <app-input-day-schedule id="input-day-schedule" [label]="day.key"></app-input-day-schedule>
+      </div>
+    }
+  </div>
+</div>

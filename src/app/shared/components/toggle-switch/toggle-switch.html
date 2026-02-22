@@ -1,0 +1,27 @@
+<label
+  class="inline-flex items-center mt-1.5"
+  [ngClass]="{
+    'cursor-not-allowed': isDisabled(),
+    'cursor-pointer': !isDisabled(),
+  }"
+>
+  <input
+    [id]="id()"
+    type="checkbox"
+    class="sr-only peer"
+    [value]="internalValue()"
+    [disabled]="isDisabled()"
+    (input)="handleInput($event)"
+    (blur)="handleBlur()"
+  />
+
+  <!-- Background -->
+  <div
+    class="relative w-full h-full min-w-[32px] max-w-[32px] min-h-[18px] max-h-[18px] bg-gray-300 rounded-full transition-colors duration-300 peer-checked:bg-blue-600 peer-focus:ring-2 peer-focus:border-[var(--color-info)] peer-focus:ring-[var(--color-info)]"
+  ></div>
+
+  <!-- Circle -->
+  <div
+    class="absolute ml-1 w-full h-full aspect-square max-w-[12px] max-h-[12px] bg-white rounded-full shadow transition-transform duration-300 peer-checked:translate-x-[12.3px]"
+  ></div>
+</label>

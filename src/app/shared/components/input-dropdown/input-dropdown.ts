@@ -49,7 +49,7 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
 
   valueChange = output<string>();
 
-  internalValue = signal<string>('');
+  internalValue = signal<InputDropdownOption | null>(null);
   disabledSignal = signal(false);
   isOpenDropdown = signal<boolean>(false);
 
@@ -58,14 +58,13 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
 
   observer?: IntersectionObserver;
   loadMore = output<void>();
-  hasMore = input<boolean>(true);
+  hasMore = input<boolean>(false);
   isLoadingMore = input<boolean>(false);
   loadMoreSubject = new Subject<void>();
 
   searchSubject = new Subject<string>();
   searchKeyword = signal<string>('');
   search = output<string>();
-  selectedOption = signal<InputDropdownOption | null>(null);
 
   constructor() {
     effect(() => {
@@ -146,11 +145,9 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   private onTouches: () => void = () => {};
 
   writeValue(value: string): void {
-    this.internalValue.set(value);
-
     const found = this.options().find((o) => o.id === value);
     if (found) {
-      this.selectedOption.set(found);
+      this.internalValue.set(found);
     }
   }
 
@@ -182,9 +179,8 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
 
   handleSelectItem(value: string): void {
     const option = this.options().find((o) => o.id === value) || null;
-    this.selectedOption.set(option);
-
-    this.internalValue.set(value);
+    this.internalValue.set(option);
+    this.valueChange.emit(value);
     this.onChange(value);
     this.closeDropdown();
   }
@@ -203,7 +199,7 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
     const disabledStyle =
       'bg-[var(--state-disabled-bg)] cursor-not-allowed opacity-[var(--state-disabled-opacity)]';
     const errorStyle =
-      'border-[var(--color-error)] focus:border-[var(--color-error-dark)] focus:ring-2 focus:ring-[var(--color-error-light)]';
+      'cursor-pointer border-[var(--color-error)] focus:border-[var(--color-error-dark)] focus:ring-2 focus:ring-[var(--color-error-light)]';
 
     if (this.isDisabled()) return `${baseStyle} ${disabledStyle}`;
     if (this.error()) return `${baseStyle} ${errorStyle}`;
@@ -225,7 +221,7 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   isDisabled = computed(() => this.disabled() || this.disabledSignal());
 
   selectedInternalValue = computed(() => {
-    if (this.selectedOption()) return this.selectedOption()!.label;
+    if (this.internalValue()) return this.internalValue()!.label;
     if (!this.internalValue()) return this.placeholder();
     return this.placeholder();
   });
