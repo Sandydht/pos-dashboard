@@ -9,9 +9,9 @@
     [id]="id()"
     type="checkbox"
     class="sr-only peer"
-    [value]="internalValue()"
+    [checked]="internalValue()"
     [disabled]="isDisabled()"
-    (input)="handleInput($event)"
+    (change)="handleChange($event)"
     (blur)="handleBlur()"
   />
 

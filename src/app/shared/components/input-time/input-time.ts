@@ -1,12 +1,12 @@
 import { Component, computed, forwardRef, input, OnInit, output, signal } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ClickOutsideDirective } from '../../directives/click-outside-directive/click-outside-directive';
 import { generateTimeList } from '../../utils/generate-time-list.util';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-input-time',
-  imports: [ClickOutsideDirective, CommonModule],
+  imports: [ClickOutsideDirective, CommonModule, FormsModule],
   templateUrl: './input-time.html',
   styleUrl: './input-time.css',
   providers: [
@@ -29,7 +29,6 @@ export class InputTimeComponent implements ControlValueAccessor, OnInit {
   disabledSignal = signal<boolean>(false);
   isOpenDropdown = signal<boolean>(false);
   times = signal<string[]>([]);
-  selectedTime = signal<string | null>('');
 
   ngOnInit(): void {
     const timeList = generateTimeList();
@@ -37,7 +36,7 @@ export class InputTimeComponent implements ControlValueAccessor, OnInit {
   }
 
   private onChange: (value: string) => void = () => {};
-  private onTouches: () => void = () => {};
+  private onTouched: () => void = () => {};
 
   writeValue(value: string): void {
     this.internalValue.set(value);
@@ -48,7 +47,7 @@ export class InputTimeComponent implements ControlValueAccessor, OnInit {
   }
 
   registerOnTouched(fn: () => void): void {
-    this.onTouches = fn;
+    this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
@@ -61,14 +60,13 @@ export class InputTimeComponent implements ControlValueAccessor, OnInit {
 
   closeDropdown(): void {
     this.isOpenDropdown.set(false);
-    this.onTouches();
+    this.onTouched();
   }
 
   handleSelectItem(value: string): void {
     const time = this.times().find((time) => time === value) || null;
-    this.selectedTime.set(time);
-
     this.internalValue.set(value);
+    this.valueChange.emit(value);
     this.onChange(value);
     this.closeDropdown();
   }
@@ -76,7 +74,7 @@ export class InputTimeComponent implements ControlValueAccessor, OnInit {
   isDisabled = computed<boolean>(() => this.disabled() || this.disabledSignal());
 
   selectedInternalValue = computed<string | null>(() => {
-    if (this.selectedTime()) return this.selectedTime();
+    if (this.internalValue()) return this.internalValue();
     if (!this.internalValue()) return this.placeholder();
     return this.placeholder();
   });

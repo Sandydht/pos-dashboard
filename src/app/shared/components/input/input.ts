@@ -31,7 +31,7 @@ export class InputComponent implements ControlValueAccessor {
   disabledSignal = signal(false);
 
   private onChange: (value: string) => void = () => {};
-  private onTouches: () => void = () => {};
+  private onTouched: () => void = () => {};
 
   writeValue(value: string): void {
     this.internalValue.set(value);
@@ -42,7 +42,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   registerOnTouched(fn: () => void): void {
-    this.onTouches = fn;
+    this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
@@ -57,7 +57,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   handleBlur(): void {
-    this.onTouches();
+    this.onTouched();
   }
 
   inputClasses = computed(() => {

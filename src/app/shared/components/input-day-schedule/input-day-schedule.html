@@ -10,13 +10,25 @@
 
   <div class="w-full md:w-auto h-auto flex items-center justify-start gap-1 md:gap-2">
     <div class="w-auto h-auto">
-      <app-toggle-switch></app-toggle-switch>
+      <app-toggle-switch
+        [disabled]="isDisabled()"
+        [ngModel]="internalValue().isClosed"
+        (ngModelChange)="handleClosedChange($event)"
+      ></app-toggle-switch>
     </div>
     <div class="w-auto h-auto">
-      <app-input-time></app-input-time>
+      <app-input-time
+        [disabled]="isDisabled() || internalValue().isClosed"
+        [ngModel]="internalValue().open"
+        (ngModelChange)="handleOpenChange($event)"
+      ></app-input-time>
     </div>
     <div class="w-auto h-auto">
-      <app-input-time></app-input-time>
+      <app-input-time
+        [disabled]="isDisabled() || internalValue().isClosed"
+        [ngModel]="internalValue().close"
+        (ngModelChange)="handleCloseChange($event)"
+      ></app-input-time>
     </div>
   </div>
 </div>

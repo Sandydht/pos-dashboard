@@ -142,7 +142,7 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   }
 
   private onChange: (value: string) => void = () => {};
-  private onTouches: () => void = () => {};
+  private onTouched: () => void = () => {};
 
   writeValue(value: string): void {
     const found = this.options().find((o) => o.id === value);
@@ -156,7 +156,7 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   }
 
   registerOnTouched(fn: () => void): void {
-    this.onTouches = fn;
+    this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
@@ -169,7 +169,7 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
 
   closeDropdown(): void {
     this.isOpenDropdown.set(false);
-    this.onTouches();
+    this.onTouched();
 
     if (this.enableSearch()) {
       this.searchKeyword.set('');

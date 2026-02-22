@@ -25,6 +25,7 @@ import * as SnackbarActions from '../../../../shared/components/snackbar/store/s
 import { Store } from '@ngrx/store';
 import { getFormErrorMessage } from '../../../../shared/utils/form-error';
 import { InputOpeningHoursComponent } from '../../../../shared/components/input-opening-hours/input-opening-hours';
+import { OpeningHours } from '../../../outlet/models/opening-hours.model';
 
 @Component({
   selector: 'app-setup-outlet-page',
@@ -61,14 +62,14 @@ export class SetupOutletPage implements OnInit {
     outletCity: [{ value: '', disabled: true }, [Validators.required]],
     outletPostalCode: ['', [Validators.required]],
     outletAddress: ['', [Validators.required]],
-    outletOpeningHours: this.formBuilder.nonNullable.group({
-      monday: this.createDaySchedule(),
-      tuesday: this.createDaySchedule(),
-      wednesday: this.createDaySchedule(),
-      thursday: this.createDaySchedule(),
-      friday: this.createDaySchedule(),
-      saturday: this.createDaySchedule(),
-      sunday: this.createDaySchedule(),
+    outletOpeningHours: this.formBuilder.nonNullable.control<OpeningHours>({
+      monday: { open: '00:00', close: '00:00', isClosed: false },
+      tuesday: { open: '00:00', close: '00:00', isClosed: false },
+      wednesday: { open: '00:00', close: '00:00', isClosed: false },
+      thursday: { open: '00:00', close: '00:00', isClosed: false },
+      friday: { open: '00:00', close: '00:00', isClosed: false },
+      saturday: { open: '00:00', close: '00:00', isClosed: false },
+      sunday: { open: '00:00', close: '00:00', isClosed: false },
     }),
   });
 
@@ -148,13 +149,13 @@ export class SetupOutletPage implements OnInit {
   }
 
   get outletNameError(): string {
-    return getFormErrorMessage(this.setupOutletForm.controls.outletCode, {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletName, {
       required: 'Name is required',
     });
   }
 
   get outletEmailError(): string {
-    return getFormErrorMessage(this.setupOutletForm.controls.outletCode, {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletEmail, {
       required: 'Email is required',
       email: 'Email is invalid',
     });
@@ -168,31 +169,31 @@ export class SetupOutletPage implements OnInit {
   }
 
   get outletCountryError(): string {
-    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletCountry, {
       required: 'Country is required',
     });
   }
 
   get outletProvinceError(): string {
-    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletProvince, {
       required: 'Province is required',
     });
   }
 
   get outletCityError(): string {
-    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletCity, {
       required: 'City is required',
     });
   }
 
   get outletPostalCodeError(): string {
-    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletPostalCode, {
       required: 'Postal Code is required',
     });
   }
 
   get outletAddressError(): string {
-    return getFormErrorMessage(this.setupOutletForm.controls.outletPhoneNumber, {
+    return getFormErrorMessage(this.setupOutletForm.controls.outletAddress, {
       required: 'Address is required',
     });
   }
@@ -251,14 +252,6 @@ export class SetupOutletPage implements OnInit {
     });
   }
 
-  private createDaySchedule() {
-    return this.formBuilder.nonNullable.group({
-      open: ['08:00', Validators.required],
-      close: ['17:00', Validators.required],
-      isClosed: [false],
-    });
-  }
-
   fetchGetOutletDetail(): void {
     this.fetchGetOutletDetailLoading.set(true);
     this.onboardingService
@@ -276,12 +269,6 @@ export class SetupOutletPage implements OnInit {
             this.setupOutletForm.controls.outletCity.setValue(response.cityId);
             this.setupOutletForm.controls.outletPostalCode.setValue(response.postalCode);
             this.setupOutletForm.controls.outletAddress.setValue(response.address);
-
-            if (response.openingHours?.monday) {
-              this.setupOutletForm.controls.outletOpeningHours.controls.monday.patchValue(
-                response.openingHours.monday,
-              );
-            }
           }
 
           this.fetchGetOutletDetailLoading.set(false);

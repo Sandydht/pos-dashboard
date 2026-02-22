@@ -19,39 +19,39 @@ export class ToggleSwitchComponent implements ControlValueAccessor {
   id = input<string>('toggle-switch');
   disabled = input<boolean>(false);
 
-  valueChange = output<string>();
+  valueChange = output<boolean>();
 
-  internalValue = signal<string>('');
+  internalValue = signal<boolean>(false);
   disabledSignal = signal(false);
 
-  private onChange: (value: string) => void = () => {};
-  private onTouches: () => void = () => {};
+  private onChange: (value: boolean) => void = () => {};
+  private onTouched: () => void = () => {};
 
-  writeValue(value: string): void {
+  writeValue(value: boolean): void {
     this.internalValue.set(value);
   }
 
-  registerOnChange(fn: (value: string) => void): void {
+  registerOnChange(fn: (value: boolean) => void): void {
     this.onChange = fn;
   }
 
   registerOnTouched(fn: () => void): void {
-    this.onTouches = fn;
+    this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
     this.disabledSignal.set(isDisabled);
   }
 
-  handleInput(event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
-    this.internalValue.set(val);
-    this.valueChange.emit(val);
-    this.onChange(val);
+  handleChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.internalValue.set(checked);
+    this.valueChange.emit(checked);
+    this.onChange(checked);
   }
 
   handleBlur(): void {
-    this.onTouches();
+    this.onTouched();
   }
 
   isDisabled = computed<boolean>(() => this.disabled() || this.disabledSignal());

@@ -1,5 +1,10 @@
 <div class="w-full h-auto relative">
-  <button type="button" [class]="buttonClasses()" (click)="toggleDropdown()">
+  <button
+    type="button"
+    [class]="buttonClasses()"
+    [disabled]="isDisabled()"
+    (click)="toggleDropdown()"
+  >
     <p class="text-center text-[12px] leading-[20px]">
       {{ selectedInternalValue() }}
     </p>

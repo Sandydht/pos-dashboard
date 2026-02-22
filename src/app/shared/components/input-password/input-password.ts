@@ -30,7 +30,7 @@ export class InputPasswordComponent implements ControlValueAccessor {
   disabledSignal = signal(false);
 
   private onChange: (value: string) => void = () => {};
-  private onTouches: () => void = () => {};
+  private onTouched: () => void = () => {};
 
   writeValue(value: string): void {
     this.internalValue.set(value);
@@ -41,7 +41,7 @@ export class InputPasswordComponent implements ControlValueAccessor {
   }
 
   registerOnTouched(fn: () => void): void {
-    this.onTouches = fn;
+    this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
@@ -56,7 +56,7 @@ export class InputPasswordComponent implements ControlValueAccessor {
   }
 
   handleBlur(): void {
-    this.onTouches();
+    this.onTouched();
   }
 
   toggleShowPassword(): void {

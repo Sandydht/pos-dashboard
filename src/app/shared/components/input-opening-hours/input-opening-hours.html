@@ -7,13 +7,27 @@
     }
   </label>
 
-  <div
-    class="w-full h-auto flex flex-col items-start justify-start gap-2 rounded-lg border border-[var(--color-tertiary-500)] p-4"
-  >
-    @for (day of internalValue() | keyvalue; track day.key) {
-      <div class="w-full h-auto">
-        <app-input-day-schedule id="input-day-schedule" [label]="day.key"></app-input-day-schedule>
-      </div>
+  <div class="w-full h-auto flex flex-col items-start justify-start gap-1">
+    <div
+      class="w-full h-auto flex flex-col items-start justify-start gap-2 rounded-lg border border-[var(--color-tertiary-500)] p-4"
+    >
+      @for (day of internalValue() | keyvalue; track day.key) {
+        <div class="w-full h-auto">
+          <app-input-day-schedule
+            id="input-day-schedule"
+            [label]="day.key"
+            [ngModel]="day.value"
+            (ngModelChange)="handleDayChange(day.key, $event)"
+            [disabled]="isDisabled()"
+          ></app-input-day-schedule>
+        </div>
+      }
+    </div>
+
+    @if (error()) {
+      <span class="text-left text-[12px] leading-[16px] text-[var(--color-error)]">
+        {{ error() }}
+      </span>
     }
   </div>
 </div>
