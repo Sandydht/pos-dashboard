@@ -101,10 +101,13 @@
             placeholder="Choose City"
             [required]="true"
             formControlName="outletCity"
-            [options]="provincesOption()"
-            [hasMore]="paginationMetaProvinces().hasNextPage"
-            [isLoadingMore]="fetchProvincesOptionLoading()"
-            (loadMore)="loadMoreProvincesOption()"
+            [options]="citiesOption()"
+            [hasMore]="paginationMetaCities().hasNextPage"
+            [isLoadingMore]="fetchCitiesOptionLoading()"
+            searchPlaceholder="Search City..."
+            [enableSearch]="true"
+            (search)="handleCitySearch($event)"
+            (loadMore)="loadMoreCitiesOption()"
           ></app-input-dropdown>
         </div>
 

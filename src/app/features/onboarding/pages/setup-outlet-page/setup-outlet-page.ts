@@ -20,6 +20,9 @@ import { Province } from '../../../../shared/models/province.model';
 import { PaginationMeta } from '../../../../shared/models/pagination-meta.model';
 import { PaginationQuery } from '../../../../shared/models/pagination-query.model';
 import { SortOrder } from '../../../../shared/models/sort-order.model';
+import { City } from '../../../../shared/models/city.model';
+import * as SnackbarActions from '../../../../shared/components/snackbar/store/snackbar.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-setup-outlet-page',
@@ -43,6 +46,7 @@ export class SetupOutletPage implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly generateUppercaseSlug = inject(GenerateUppercaseSlugPipe);
   private readonly optionService = inject(OptionService);
+  private readonly store = inject(Store);
 
   setupOutletForm = this.formBuilder.nonNullable.group({
     outletCode: [{ value: '', disabled: true }, [Validators.required]],
@@ -54,7 +58,6 @@ export class SetupOutletPage implements OnInit {
     outletCity: [{ value: '', disabled: true }, [Validators.required]],
     outletPostalCode: ['', [Validators.required]],
     outletAddress: ['', [Validators.required]],
-    outletIsActive: [true, [Validators.required]],
     outletOpeningHours: this.formBuilder.nonNullable.group({
       monday: this.createDaySchedule(),
       tuesday: this.createDaySchedule(),
@@ -70,6 +73,7 @@ export class SetupOutletPage implements OnInit {
   submitSetupOutletLoading = signal<boolean>(false);
   fetchCountriesOptionLoading = signal<boolean>(false);
   fetchProvincesOptionLoading = signal<boolean>(false);
+  fetchCitiesOptionLoading = signal<boolean>(false);
 
   countries = signal<Country[]>([]);
 
@@ -83,6 +87,31 @@ export class SetupOutletPage implements OnInit {
     hasPrevPage: false,
   });
   paginatedProvinces = signal<PaginatedResult<Province>>({
+    data: [],
+    meta: {
+      page: 1,
+      size: 10,
+      totalItems: 0,
+      totalPages: 0,
+      hasNextPage: false,
+      hasPrevPage: false,
+    },
+    query: {
+      sortBy: '',
+      sortOrder: 'asc',
+    },
+  });
+
+  searchCity = signal<string>('');
+  paginationMetaCities = signal<PaginationMeta>({
+    page: 1,
+    size: 10,
+    totalItems: 0,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPrevPage: false,
+  });
+  paginatedCities = signal<PaginatedResult<City>>({
     data: [],
     meta: {
       page: 1,
@@ -149,7 +178,16 @@ export class SetupOutletPage implements OnInit {
         return;
       }
 
-      console.log('province onchanges');
+      this.paginationMetaCities.set({
+        page: 1,
+        size: 10,
+        totalItems: 0,
+        totalPages: 1,
+        hasNextPage: false,
+        hasPrevPage: false,
+      });
+
+      this.fetchCitiesOption(value);
       this.setupOutletForm.controls.outletCity.enable();
     });
   }
@@ -175,12 +213,27 @@ export class SetupOutletPage implements OnInit {
             this.setupOutletForm.controls.outletPhoneNumber.setValue(response.phoneNumber);
             this.setupOutletForm.controls.outletEmail.setValue(response.email);
             this.setupOutletForm.controls.outletCountry.setValue(response.countryId);
+            this.setupOutletForm.controls.outletProvince.setValue(response.provinceId);
+            this.setupOutletForm.controls.outletCity.setValue(response.cityId);
+            this.setupOutletForm.controls.outletPostalCode.setValue(response.postalCode);
+            this.setupOutletForm.controls.outletAddress.setValue(response.address);
+
+            if (response.openingHours?.monday) {
+              this.setupOutletForm.controls.outletOpeningHours.controls.monday.patchValue(
+                response.openingHours.monday,
+              );
+            }
           }
 
           this.fetchGetOutletDetailLoading.set(false);
         },
         error: (err) => {
-          console.log('err: ', err);
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
           this.fetchGetOutletDetailLoading.set(false);
         },
       });
@@ -197,7 +250,12 @@ export class SetupOutletPage implements OnInit {
           this.fetchCountriesOptionLoading.set(false);
         },
         error: (err) => {
-          console.log('err: ', err);
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
           this.fetchCountriesOptionLoading.set(false);
         },
       });
@@ -211,7 +269,7 @@ export class SetupOutletPage implements OnInit {
       .getProvincesOption(countryId, this.provincesOptionQuery())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
+        next: (response: PaginatedResult<Province>) => {
           this.paginatedProvinces.update((prev) => ({
             ...prev,
             data:
@@ -224,7 +282,13 @@ export class SetupOutletPage implements OnInit {
           this.paginationMetaProvinces.set(response.meta);
           this.fetchProvincesOptionLoading.set(false);
         },
-        error: () => {
+        error: (err) => {
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
           this.fetchProvincesOptionLoading.set(false);
         },
       });
@@ -254,6 +318,63 @@ export class SetupOutletPage implements OnInit {
     this.fetchProvinceOption(countryId);
   }
 
+  fetchCitiesOption(provinceId: string): void {
+    if (!provinceId) return;
+
+    this.fetchCitiesOptionLoading.set(true);
+    this.optionService
+      .getCitiesOption(provinceId, this.citiesOptionQuery())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: PaginatedResult<City>) => {
+          this.paginatedCities.update((prev) => ({
+            ...prev,
+            data:
+              this.paginationMetaCities().page === 1
+                ? response.data
+                : [...prev.data, ...response.data],
+            meta: response.meta,
+          }));
+
+          this.paginationMetaCities.set(response.meta);
+          this.fetchCitiesOptionLoading.set(false);
+        },
+        error: (err) => {
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
+          this.fetchCitiesOptionLoading.set(false);
+        },
+      });
+  }
+
+  loadMoreCitiesOption(): void {
+    if (!this.paginationMetaCities().hasNextPage) return;
+
+    this.paginationMetaCities.update((meta) => ({
+      ...meta,
+      page: meta.page + 1,
+    }));
+
+    const provinceId = this.setupOutletForm.controls.outletProvince.value;
+    this.fetchCitiesOption(provinceId);
+  }
+
+  handleCitySearch(keyword: string): void {
+    this.paginationMetaCities.set({
+      ...this.paginationMetaCities(),
+      page: 1,
+    });
+
+    this.searchCity.set(keyword);
+
+    const provinceId = this.setupOutletForm.controls.outletProvince.value;
+    this.fetchCitiesOption(provinceId);
+  }
+
   goToSetupStorePage(): void {
     this.router.navigate(['/onboarding', 'setup-store']);
   }
@@ -266,6 +387,7 @@ export class SetupOutletPage implements OnInit {
 
     this.submitSetupOutletLoading.set(true);
     console.log(this.setupOutletForm.value);
+    this.submitSetupOutletLoading.set(false);
   }
 
   countriesOption = computed<InputDropdownOption[]>(() => {
@@ -280,7 +402,7 @@ export class SetupOutletPage implements OnInit {
   provincesOption = computed<InputDropdownOption[]>(() => {
     if (this.paginatedProvinces().data.length === 0) return [];
 
-    return this.paginatedProvinces().data.map((province) => ({
+    return this.paginatedProvinces().data.map((province: Province) => ({
       id: province.id,
       label: province.name,
     }));
@@ -292,5 +414,22 @@ export class SetupOutletPage implements OnInit {
     sortBy: 'name',
     sortOrder: 'asc' as SortOrder,
     search: this.searchProvince(),
+  }));
+
+  citiesOption = computed<InputDropdownOption[]>(() => {
+    if (this.paginatedCities().data.length === 0) return [];
+
+    return this.paginatedCities().data.map((city: City) => ({
+      id: city.id,
+      label: city.name,
+    }));
+  });
+
+  citiesOptionQuery = computed<PaginationQuery>(() => ({
+    page: this.paginationMetaCities().page,
+    size: this.paginationMetaCities().size,
+    sortBy: 'name',
+    sortOrder: 'asc' as SortOrder,
+    search: this.searchCity(),
   }));
 }

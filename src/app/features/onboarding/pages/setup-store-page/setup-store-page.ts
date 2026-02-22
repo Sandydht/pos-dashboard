@@ -5,12 +5,14 @@ import { ButtonComponent } from '../../../../shared/components/button/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { getFormErrorMessage } from '../../../../shared/utils/form-error';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Store } from '../../../store/models/store.model';
+import { Store as StoreModel } from '../../../store/models/store.model';
 import { Router } from '@angular/router';
 import { StepHeaderComponent } from '../../components/step-header/step-header';
 import { OnboardingService } from '../../../../core/services/onboarding-service/onboarding-service';
 import { OnboardingCreateStoreRequest } from '../../models/onboarding-create-store-request.model';
 import { GenerateUppercaseSlugPipe } from '../../../../shared/pipes/generate-uppercase-slug-pipe/generate-uppercase-slug-pipe';
+import * as SnackbarActions from '../../../../shared/components/snackbar/store/snackbar.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-setup-store-page',
@@ -32,6 +34,7 @@ export class SetupStorePage implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   private readonly generateUppercaseSlug = inject(GenerateUppercaseSlugPipe);
+  private readonly store = inject(Store);
 
   setupStoreForm = this.formBuilder.nonNullable.group({
     photoUrl: [null],
@@ -79,7 +82,7 @@ export class SetupStorePage implements OnInit {
       .getStoreDetail()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: Store) => {
+        next: (response: StoreModel) => {
           if (response.code && response.name) {
             this.setupStoreForm.setValue({
               photoUrl: null,
@@ -91,6 +94,12 @@ export class SetupStorePage implements OnInit {
           this.fetchStoreDetailLoading.set(false);
         },
         error: (err) => {
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
           this.fetchStoreDetailLoading.set(false);
         },
       });
@@ -118,7 +127,13 @@ export class SetupStorePage implements OnInit {
           this.submitSetupStoreLoading.set(false);
           this.router.navigate(['/onboarding', 'setup-outlet']);
         },
-        error: () => {
+        error: (err) => {
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
           this.submitSetupStoreLoading.set(false);
         },
       });

@@ -47,6 +47,7 @@
     "@angular/build": "21.1.4",
     "@angular/cli": "21.1.4",
     "@angular/compiler-cli": "21.1.4",
+    "@ngrx/schematics": "21.0.1",
     "@tailwindcss/postcss": "4.1.12",
     "@types/crypto-js": "4.2.2",
     "ajv": "8.18.0",

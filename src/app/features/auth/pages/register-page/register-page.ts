@@ -12,6 +12,8 @@ import { indonesianPhoneNumberValidator } from '../../../../shared/validators/in
 import { AuthService } from '../../../../core/services/auth-service/auth-service';
 import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import * as SnackbarActions from '../../../../shared/components/snackbar/store/snackbar.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-register-page',
@@ -30,6 +32,7 @@ export class RegisterPage {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly store = inject(Store);
 
   registerForm = this.formBuilder.nonNullable.group({
     username: ['', [Validators.required, usernameValidator]],
@@ -104,7 +107,13 @@ export class RegisterPage {
           this.registerForm.reset();
           this.submitRegisterLoading.set(false);
         },
-        error: () => {
+        error: (err) => {
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
           this.submitRegisterLoading.set(false);
         },
       });

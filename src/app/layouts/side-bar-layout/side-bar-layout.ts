@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AuthService } from '../../core/services/auth-service/auth-service';
 import { selectSidebarOpen } from './store/sidebar.selectors';
 import { toSignal } from '@angular/core/rxjs-interop';
 import * as SidebarActions from './store/sidebar.actions';
@@ -16,7 +15,6 @@ import { SideBarLink } from '../../shared/models/side-bar-link.model';
 })
 export class SideBarLayout {
   private readonly store = inject(Store);
-  private readonly authService = inject(AuthService);
 
   isOpen$ = this.store.select(selectSidebarOpen);
 

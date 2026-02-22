@@ -18,6 +18,8 @@ import { environment } from '../environments/environment';
 import { sidebarReducer } from './layouts/side-bar-layout/store/sidebar.reducer';
 import { SidebarEffects } from './layouts/side-bar-layout/store/sidebar.effects';
 import { OnboardingService } from './core/services/onboarding-service/onboarding-service';
+import { snackbarReducer } from './shared/components/snackbar/store/snackbar.reducer';
+import { SnackbarEffects } from './shared/components/snackbar/store/snackbar.effects';
 
 export const initApp = (authService: AuthService, onboardingService: OnboardingService) => {
   return async () => {
@@ -44,8 +46,9 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore({
       sidebar: sidebarReducer,
+      snackbar: snackbarReducer,
     }),
-    provideEffects([SidebarEffects]),
+    provideEffects([SidebarEffects, SnackbarEffects]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: environment.production,

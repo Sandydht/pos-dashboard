@@ -10,6 +10,8 @@ import { getFormErrorMessage } from '../../../../shared/utils/form-error';
 import { AuthService } from '../../../../core/services/auth-service/auth-service';
 import { LoginRequest } from '../../models/login-request.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import * as SnackbarActions from '../../../../shared/components/snackbar/store/snackbar.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-login-page',
@@ -28,6 +30,7 @@ export class LoginPage {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly store = inject(Store);
 
   submitLoginLoading = signal<boolean>(false);
 
@@ -77,7 +80,13 @@ export class LoginPage {
           this.loginForm.reset();
           this.submitLoginLoading.set(false);
         },
-        error: () => {
+        error: (err) => {
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
           this.submitLoginLoading.set(false);
         },
       });
