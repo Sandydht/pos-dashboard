@@ -1,5 +1,6 @@
 <div class="w-full h-auto relative">
   <button
+    #triggerButton
     type="button"
     [class]="buttonClasses()"
     [disabled]="isDisabled()"
@@ -19,7 +20,11 @@
   @if (isOpenDropdown()) {
     <div
       appClickOutside
-      class="w-full h-auto absolute mt-1 max-h-[200px] overflow-y-auto bg-white rounded-lg border border-gray-100 shadow-md z-30"
+      class="w-full h-auto absolute max-h-[200px] overflow-y-auto bg-white rounded-lg border border-gray-100 shadow-md z-30"
+      [ngClass]="{
+        'mt-1 top-full': dropdownDirection() === 'down',
+        'mb-1 bottom-full': dropdownDirection() === 'up',
+      }"
       (clickOutside)="closeDropdown()"
     >
       @for (time of times(); track $index) {

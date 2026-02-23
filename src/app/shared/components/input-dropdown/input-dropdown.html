@@ -10,6 +10,7 @@
   <div class="w-full h-auto flex flex-col items-start justify-start gap-1">
     <div class="w-full h-auto relative">
       <button
+        #triggerButton
         type="button"
         [class]="buttonClasses()"
         [disabled]="isDisabled()"
@@ -26,7 +27,11 @@
       @if (isOpenDropdown()) {
         <div
           #scrollContainer
-          class="w-full h-auto max-h-[267px] absolute mt-1 bg-white rounded-lg border border-gray-100 shadow-md flex flex-col items-start justify-start z-30 overflow-hidden"
+          class="w-full h-auto max-h-[267px] absolute bg-white rounded-lg border border-gray-100 shadow-md flex flex-col items-start justify-start z-30 overflow-hidden"
+          [ngClass]="{
+            'mt-1 top-full': dropdownDirection() === 'down',
+            'mb-1 bottom-full': dropdownDirection() === 'up',
+          }"
           appClickOutside
           (clickOutside)="closeDropdown()"
         >

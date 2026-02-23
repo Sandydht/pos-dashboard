@@ -1,4 +1,14 @@
-import { Component, computed, forwardRef, input, OnInit, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  forwardRef,
+  input,
+  OnInit,
+  output,
+  signal,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ClickOutsideDirective } from '../../directives/click-outside-directive/click-outside-directive';
 import { generateTimeList } from '../../utils/generate-time-list.util';
@@ -30,6 +40,9 @@ export class InputTimeComponent implements ControlValueAccessor, OnInit {
   isOpenDropdown = signal<boolean>(false);
   times = signal<string[]>([]);
 
+  @ViewChild('triggerButton') triggerButton?: ElementRef<HTMLButtonElement>;
+  dropdownDirection = signal<'up' | 'down'>('down');
+
   ngOnInit(): void {
     const timeList = generateTimeList();
     this.times.set(timeList);
@@ -55,7 +68,17 @@ export class InputTimeComponent implements ControlValueAccessor, OnInit {
   }
 
   toggleDropdown(): void {
-    this.isOpenDropdown.update((value) => !value);
+    if (this.isDisabled()) return;
+
+    this.isOpenDropdown.update((open) => {
+      const newState = !open;
+
+      if (newState) {
+        setTimeout(() => this.calculateDropdownPosition());
+      }
+
+      return newState;
+    });
   }
 
   closeDropdown(): void {
@@ -69,6 +92,23 @@ export class InputTimeComponent implements ControlValueAccessor, OnInit {
     this.valueChange.emit(value);
     this.onChange(value);
     this.closeDropdown();
+  }
+
+  private calculateDropdownPosition(): void {
+    if (!this.triggerButton) return;
+
+    const rect = this.triggerButton.nativeElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 200; // max-h dari dropdown
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      this.dropdownDirection.set('up');
+    } else {
+      this.dropdownDirection.set('down');
+    }
   }
 
   isDisabled = computed<boolean>(() => this.disabled() || this.disabledSignal());

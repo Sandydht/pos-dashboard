@@ -68,6 +68,9 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
 
   private pendingValue: string | null = null;
 
+  @ViewChild('triggerButton') triggerButton?: ElementRef<HTMLButtonElement>;
+  dropdownDirection = signal<'up' | 'down'>('down');
+
   constructor() {
     effect(() => {
       if (this.isOpenDropdown()) {
@@ -171,7 +174,17 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   }
 
   toggleDropdown(): void {
-    this.isOpenDropdown.update((value) => !value);
+    if (this.isDisabled()) return;
+
+    this.isOpenDropdown.update((open) => {
+      const newState = !open;
+
+      if (newState) {
+        setTimeout(() => this.calculateDropdownPosition());
+      }
+
+      return newState;
+    });
   }
 
   closeDropdown(): void {
@@ -193,6 +206,23 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
 
   handleSearch(keyword: string): void {
     this.searchSubject.next(keyword);
+  }
+
+  private calculateDropdownPosition(): void {
+    if (!this.triggerButton) return;
+
+    const rect = this.triggerButton.nativeElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 200; // max-h dari dropdown
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      this.dropdownDirection.set('up');
+    } else {
+      this.dropdownDirection.set('down');
+    }
   }
 
   buttonClasses = computed(() => {

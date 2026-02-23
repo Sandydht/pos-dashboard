@@ -53,6 +53,16 @@ export class SetupOutletPage implements OnInit {
   private readonly optionService = inject(OptionService);
   private readonly store = inject(Store);
 
+  DEFAULT_OPENING_HOURS: OpeningHours = {
+    monday: { open: '08:00', close: '07:00', isClosed: false },
+    tuesday: { open: '08:00', close: '07:00', isClosed: false },
+    wednesday: { open: '08:00', close: '07:00', isClosed: false },
+    thursday: { open: '08:00', close: '07:00', isClosed: false },
+    friday: { open: '08:00', close: '07:00', isClosed: false },
+    saturday: { open: '08:00', close: '07:00', isClosed: false },
+    sunday: { open: '08:00', close: '07:00', isClosed: false },
+  };
+
   setupOutletForm = this.formBuilder.nonNullable.group({
     outletCode: [{ value: '', disabled: true }, [Validators.required]],
     outletName: ['', [Validators.required]],
@@ -64,13 +74,7 @@ export class SetupOutletPage implements OnInit {
     outletPostalCode: ['', [Validators.required]],
     outletAddress: ['', [Validators.required]],
     outletOpeningHours: this.formBuilder.nonNullable.control<OpeningHours>({
-      monday: { open: '00:00', close: '00:00', isClosed: false },
-      tuesday: { open: '00:00', close: '00:00', isClosed: false },
-      wednesday: { open: '00:00', close: '00:00', isClosed: false },
-      thursday: { open: '00:00', close: '00:00', isClosed: false },
-      friday: { open: '00:00', close: '00:00', isClosed: false },
-      saturday: { open: '00:00', close: '00:00', isClosed: false },
-      sunday: { open: '00:00', close: '00:00', isClosed: false },
+      ...this.DEFAULT_OPENING_HOURS,
     }),
   });
 
@@ -218,47 +222,51 @@ export class SetupOutletPage implements OnInit {
   }
 
   listenToOutletCountryChanges(): void {
-    this.setupOutletForm.controls.outletCountry.valueChanges.subscribe((value) => {
-      if (!value) {
-        this.setupOutletForm.controls.outletProvince.disable();
-        return;
-      }
+    this.setupOutletForm.controls.outletCountry.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        if (!value) {
+          this.setupOutletForm.controls.outletProvince.disable();
+          return;
+        }
 
-      this.paginationMetaProvinces.set({
-        page: 1,
-        size: 10,
-        totalItems: 0,
-        totalPages: 1,
-        hasNextPage: false,
-        hasPrevPage: false,
+        this.paginationMetaProvinces.set({
+          page: 1,
+          size: 10,
+          totalItems: 0,
+          totalPages: 1,
+          hasNextPage: false,
+          hasPrevPage: false,
+        });
+
+        this.fetchProvinceOption(value);
+        this.setupOutletForm.controls.outletProvince.enable();
+        this.setupOutletForm.controls.outletProvince.reset();
       });
-
-      this.fetchProvinceOption(value);
-      this.setupOutletForm.controls.outletProvince.enable();
-      this.setupOutletForm.controls.outletProvince.reset();
-    });
   }
 
   listenToOutletProvinceChanges(): void {
-    this.setupOutletForm.controls.outletProvince.valueChanges.subscribe((value) => {
-      if (!value) {
-        this.setupOutletForm.controls.outletCity.disable();
-        return;
-      }
+    this.setupOutletForm.controls.outletProvince.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        if (!value) {
+          this.setupOutletForm.controls.outletCity.disable();
+          return;
+        }
 
-      this.paginationMetaCities.set({
-        page: 1,
-        size: 10,
-        totalItems: 0,
-        totalPages: 1,
-        hasNextPage: false,
-        hasPrevPage: false,
+        this.paginationMetaCities.set({
+          page: 1,
+          size: 10,
+          totalItems: 0,
+          totalPages: 1,
+          hasNextPage: false,
+          hasPrevPage: false,
+        });
+
+        this.fetchCitiesOption(value);
+        this.setupOutletForm.controls.outletCity.enable();
+        this.setupOutletForm.controls.outletCity.reset();
       });
-
-      this.fetchCitiesOption(value);
-      this.setupOutletForm.controls.outletCity.enable();
-      this.setupOutletForm.controls.outletCity.reset();
-    });
   }
 
   fetchGetOutletDetail(): void {
@@ -274,11 +282,17 @@ export class SetupOutletPage implements OnInit {
             this.setupOutletForm.controls.outletPhoneNumber.setValue(response.phoneNumber);
             this.setupOutletForm.controls.outletEmail.setValue(response.email);
             this.setupOutletForm.controls.outletCountry.setValue(response.countryId);
-            console.log('provinceId: ', response.provinceId);
             this.setupOutletForm.controls.outletProvince.setValue(response.provinceId);
             this.setupOutletForm.controls.outletCity.setValue(response.cityId);
             this.setupOutletForm.controls.outletPostalCode.setValue(response.postalCode);
             this.setupOutletForm.controls.outletAddress.setValue(response.address);
+
+            if (response.openingHours) {
+              this.setupOutletForm.controls.outletOpeningHours.setValue({
+                ...this.DEFAULT_OPENING_HOURS,
+                ...response.openingHours,
+              });
+            }
           }
 
           this.fetchGetOutletDetailLoading.set(false);
