@@ -49,7 +49,7 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
 
   valueChange = output<string>();
 
-  internalValue = signal<InputDropdownOption | null>(null);
+  internalValue = signal<string | null>(null);
   disabledSignal = signal(false);
   isOpenDropdown = signal<boolean>(false);
 
@@ -66,20 +66,26 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   searchKeyword = signal<string>('');
   search = output<string>();
 
+  private pendingValue: string | null = null;
+
   constructor() {
     effect(() => {
       if (this.isOpenDropdown()) {
-        setTimeout(() => {
-          this.initObserver();
-        });
+        setTimeout(() => this.initObserver());
+      } else {
+        this.observer?.disconnect();
       }
     });
 
     effect(() => {
-      if (!this.isLoadingMore() && this.isOpenDropdown()) {
-        setTimeout(() => {
-          this.initObserver();
-        });
+      const value = this.pendingValue;
+      if (!value) return;
+
+      const found = this.options().find((o) => o.id === value);
+
+      if (found) {
+        this.internalValue.set(found.id);
+        this.pendingValue = null;
       }
     });
 
@@ -122,6 +128,10 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   initObserver() {
     if (!this.scrollContainer || !this.sentinel) return;
 
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+
     this.observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
@@ -145,10 +155,7 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   private onTouched: () => void = () => {};
 
   writeValue(value: string): void {
-    const found = this.options().find((o) => o.id === value);
-    if (found) {
-      this.internalValue.set(found);
-    }
+    this.internalValue.set(value);
   }
 
   registerOnChange(fn: (value: string) => void): void {
@@ -178,10 +185,9 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
   }
 
   handleSelectItem(value: string): void {
-    const option = this.options().find((o) => o.id === value) || null;
-    this.internalValue.set(option);
-    this.valueChange.emit(value);
+    this.internalValue.set(value);
     this.onChange(value);
+    this.valueChange.emit(value);
     this.closeDropdown();
   }
 
@@ -220,9 +226,11 @@ export class InputDropdownComponent implements ControlValueAccessor, AfterViewIn
 
   isDisabled = computed(() => this.disabled() || this.disabledSignal());
 
-  selectedInternalValue = computed(() => {
-    if (this.internalValue()) return this.internalValue()!.label;
-    if (!this.internalValue()) return this.placeholder();
-    return this.placeholder();
+  selectedLabel = computed(() => {
+    const id = this.internalValue();
+    if (!id) return this.placeholder();
+
+    const found = this.options().find((o) => o.id === id);
+    return found?.label ?? this.placeholder();
   });
 }

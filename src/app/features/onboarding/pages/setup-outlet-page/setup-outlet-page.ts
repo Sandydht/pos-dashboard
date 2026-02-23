@@ -221,7 +221,6 @@ export class SetupOutletPage implements OnInit {
     this.setupOutletForm.controls.outletCountry.valueChanges.subscribe((value) => {
       if (!value) {
         this.setupOutletForm.controls.outletProvince.disable();
-        this.setupOutletForm.controls.outletProvince.reset();
         return;
       }
 
@@ -236,6 +235,7 @@ export class SetupOutletPage implements OnInit {
 
       this.fetchProvinceOption(value);
       this.setupOutletForm.controls.outletProvince.enable();
+      this.setupOutletForm.controls.outletProvince.reset();
     });
   }
 
@@ -243,7 +243,6 @@ export class SetupOutletPage implements OnInit {
     this.setupOutletForm.controls.outletProvince.valueChanges.subscribe((value) => {
       if (!value) {
         this.setupOutletForm.controls.outletCity.disable();
-        this.setupOutletForm.controls.outletCity.reset();
         return;
       }
 
@@ -258,6 +257,7 @@ export class SetupOutletPage implements OnInit {
 
       this.fetchCitiesOption(value);
       this.setupOutletForm.controls.outletCity.enable();
+      this.setupOutletForm.controls.outletCity.reset();
     });
   }
 
@@ -274,6 +274,7 @@ export class SetupOutletPage implements OnInit {
             this.setupOutletForm.controls.outletPhoneNumber.setValue(response.phoneNumber);
             this.setupOutletForm.controls.outletEmail.setValue(response.email);
             this.setupOutletForm.controls.outletCountry.setValue(response.countryId);
+            console.log('provinceId: ', response.provinceId);
             this.setupOutletForm.controls.outletProvince.setValue(response.provinceId);
             this.setupOutletForm.controls.outletCity.setValue(response.cityId);
             this.setupOutletForm.controls.outletPostalCode.setValue(response.postalCode);

@@ -15,7 +15,7 @@
         [disabled]="isDisabled()"
         (click)="toggleDropdown()"
       >
-        {{ selectedInternalValue() }}
+        {{ selectedLabel() }}
         <img
           src="assets/images/svg/expand_more_24px_tertiary_500.svg"
           alt="Expand more icon"
@@ -49,10 +49,10 @@
                   class="w-full h-auto px-4 py-2 text-left text-[12px] leading-[16px] cursor-pointer border-b border-gray-200 last:border-0 transition-all duration-200 ease-out"
                   [ngClass]="{
                     'bg-[var(--color-primary-500)] text-white pointer-events-none':
-                      internalValue()?.id === option.id,
-                    'hover:bg-gray-100 text-black': internalValue()?.id !== option.id,
+                      internalValue() === option.id,
+                    'hover:bg-gray-100 text-black': internalValue() !== option.id,
                   }"
-                  [disabled]="internalValue()?.id === option.id"
+                  [disabled]="internalValue() === option.id"
                   (click)="handleSelectItem(option.id)"
                 >
                   {{ option.label }}
