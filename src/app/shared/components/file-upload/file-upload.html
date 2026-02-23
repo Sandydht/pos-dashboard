@@ -1,0 +1,59 @@
+<div
+  class="w-full h-auto flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-4 gap-4 border-gray-400"
+  (drop)="onDrop($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave()"
+>
+  <input #fileInput type="file" hidden (change)="onFileSelected($event)" />
+
+  @if (files().length === 0) {
+    <img
+      src="assets/images/svg/cloud_upload_24px_tertiary_500.svg"
+      alt="Cloud upload icon"
+      class="w-full h-full aspect-square max-w-[24px] max-h-[24px]"
+    />
+
+    <div class="w-full h-auto flex flex-col items-center justify-center gap-1">
+      <p class="text-center text-[12px] leading-[16px] font-semibold">
+        Choose a file or drag & drop it here
+      </p>
+      <p class="text-center text-[12px] leading-[16px]">JPEG, JPG, Webp, PNG, and PDF</p>
+    </div>
+
+    <button
+      type="button"
+      class="w-auto h-auto px-4 py-2 rounded-lg border border-gray-400 text-center text-[12px] leading-[16px] font-semibold cursor-pointer"
+      (click)="openFileDialog()"
+    >
+      Browse File
+    </button>
+  } @else {
+    @for (file of files(); track $index) {
+      @if (file.previewUrl) {
+        <img
+          [src]="file.previewUrl"
+          alt="Image preview"
+          class="w-full h-auto object-contain object-center"
+        />
+      }
+
+      <p class="text-center text-[12px] leading-[16px] font-semibold">
+        {{ file.file.name }}
+      </p>
+
+      @if (file.error) {
+        <p class="text-center text-[12px] leading-[16px] font-semibold">
+          {{ file.error }}
+        </p>
+      }
+
+      <button
+        type="button"
+        class="w-auto h-auto px-4 py-2 rounded-lg border border-gray-400 text-center text-[12px] leading-[16px] font-semibold cursor-pointer"
+        (click)="removeFile($index); $event.stopPropagation()"
+      >
+        Remove
+      </button>
+    }
+  }
+</div>

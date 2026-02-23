@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { InputComponent } from '../../../../shared/components/input/input';
 import { ButtonComponent } from '../../../../shared/components/button/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,6 +13,10 @@ import { OnboardingCreateStoreRequest } from '../../models/onboarding-create-sto
 import { GenerateUppercaseSlugPipe } from '../../../../shared/pipes/generate-uppercase-slug-pipe/generate-uppercase-slug-pipe';
 import * as SnackbarActions from '../../../../shared/components/snackbar/store/snackbar.actions';
 import { Store } from '@ngrx/store';
+import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload';
+import { UploadedFile } from '../../../../shared/models/uploaded-file.model';
+import { UploadService } from '../../../../core/services/upload-service/upload-service';
+import { UploadRequest } from '../../../../shared/models/upload-request.model';
 
 @Component({
   selector: 'app-setup-store-page',
@@ -23,6 +27,7 @@ import { Store } from '@ngrx/store';
     ButtonComponent,
     ReactiveFormsModule,
     StepHeaderComponent,
+    FileUploadComponent,
   ],
   providers: [GenerateUppercaseSlugPipe],
   templateUrl: './setup-store-page.html',
@@ -35,13 +40,15 @@ export class SetupStorePage implements OnInit {
   private readonly router = inject(Router);
   private readonly generateUppercaseSlug = inject(GenerateUppercaseSlugPipe);
   private readonly store = inject(Store);
+  private readonly uploadService = inject(UploadService);
 
   setupStoreForm = this.formBuilder.nonNullable.group({
-    photoUrl: [null],
+    storePhotoUrl: this.formBuilder.control<UploadedFile[]>([]),
     storeCode: [{ value: '', disabled: true }, [Validators.required]],
     storeName: ['', [Validators.required]],
   });
 
+  storeData = signal<StoreModel | null>(null);
   fetchStoreDetailLoading = signal<boolean>(false);
   submitSetupStoreLoading = signal<boolean>(false);
 
@@ -61,6 +68,8 @@ export class SetupStorePage implements OnInit {
       required: 'Name is required',
     });
   }
+
+  storeId = computed<string | null>(() => this.storeData()?.id || null);
 
   ngOnInit(): void {
     this.fetchGetStoreDetail();
@@ -85,12 +94,13 @@ export class SetupStorePage implements OnInit {
         next: (response: StoreModel) => {
           if (response.code && response.name) {
             this.setupStoreForm.setValue({
-              photoUrl: null,
+              storePhotoUrl: null,
               storeCode: response.code,
               storeName: response.name,
             });
           }
 
+          this.storeData.set(response);
           this.fetchStoreDetailLoading.set(false);
         },
         error: (err) => {
@@ -113,20 +123,68 @@ export class SetupStorePage implements OnInit {
 
     this.submitSetupStoreLoading.set(true);
 
-    const payload: OnboardingCreateStoreRequest = {
-      photoUrl: this.setupStoreForm.controls.photoUrl.value,
-      code: this.setupStoreForm.controls.storeCode.value,
-      name: this.setupStoreForm.controls.storeName.value,
+    const uploadedFiles = this.setupStoreForm.controls.storePhotoUrl.value ?? [];
+
+    const firstFile: UploadedFile | null =
+      uploadedFiles.find((file: UploadedFile) => !file.error) ?? null;
+    if (!firstFile) {
+      this.store.dispatch(
+        SnackbarActions.showSnackbar({
+          message: 'No valid file selected',
+          variant: 'error',
+        }),
+      );
+      this.submitSetupStoreLoading.set(false);
+      return;
+    }
+
+    if (!this.storeId()) {
+      this.store.dispatch(
+        SnackbarActions.showSnackbar({
+          message: 'Invalid store id',
+          variant: 'error',
+        }),
+      );
+      this.submitSetupStoreLoading.set(false);
+      return;
+    }
+
+    const uploadFilePayload: UploadRequest = {
+      file: firstFile.file,
+      context: 'store',
+      entityId: this.storeId() as string,
     };
 
-    this.onboardingService
-      .createStore(payload)
+    this.uploadService
+      .upload(uploadFilePayload)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
-          this.setupStoreForm.reset();
-          this.submitSetupStoreLoading.set(false);
-          this.router.navigate(['/onboarding', 'setup-outlet']);
+        next: (response: string) => {
+          const payload: OnboardingCreateStoreRequest = {
+            photoUrl: response,
+            code: this.setupStoreForm.controls.storeCode.value,
+            name: this.setupStoreForm.controls.storeName.value,
+          };
+
+          this.onboardingService
+            .createStore(payload)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+              next: () => {
+                this.setupStoreForm.reset();
+                this.submitSetupStoreLoading.set(false);
+                this.router.navigate(['/onboarding', 'setup-outlet']);
+              },
+              error: (err) => {
+                this.store.dispatch(
+                  SnackbarActions.showSnackbar({
+                    message: err?.error?.message || 'Internal Server Error',
+                    variant: 'error',
+                  }),
+                );
+                this.submitSetupStoreLoading.set(false);
+              },
+            });
         },
         error: (err) => {
           this.store.dispatch(

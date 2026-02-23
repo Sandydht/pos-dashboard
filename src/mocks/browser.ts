@@ -4,6 +4,7 @@ import { onboardingHandlers } from './handlers/onboarding.handler';
 import { storeHandlers } from './handlers/store.handler';
 import { outletHandlers } from './handlers/outlet.handler';
 import { optionHandlers } from './handlers/option.handler';
+import { uploadHandlers } from './handlers/upload.handler';
 
 export const worker = setupWorker(
   ...authHandlers,
@@ -11,4 +12,5 @@ export const worker = setupWorker(
   ...storeHandlers,
   ...outletHandlers,
   ...optionHandlers,
+  ...uploadHandlers,
 );

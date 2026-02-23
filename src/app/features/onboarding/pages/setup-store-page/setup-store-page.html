@@ -27,6 +27,10 @@
 
       <div class="w-full h-auto flex flex-col items-start justify-start gap-2">
         <div class="w-full h-auto">
+          <app-file-upload formControlName="storePhotoUrl"></app-file-upload>
+        </div>
+
+        <div class="w-full h-auto">
           <app-input
             id="storeCode"
             label="Code"
@@ -61,16 +65,10 @@
           </app-button>
         </div>
 
-        <div class="w-auto h-auto flex items-center justify-center gap-1">
-          <img
-            src="assets/images/svg/lock_24px_tertiary_500.svg"
-            alt="Lock icon"
-            class="w-full h-full min-w-[16px] max-w-[16px] min-h-[16px] max-h-[16px] object-contain object-center"
-          />
-
-          <p class="text-center text-[12px] leading-[16px] text-[var(--color-tertiary-500)]">
+        <div class="w-auto h-auto">
+          <span class="text-center text-[12px] leading-[16px] text-[var(--color-tertiary-500)]">
             Your business information is securely stored.
-          </p>
+          </span>
         </div>
       </div>
     </form>

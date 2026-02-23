@@ -1,1 +1,106 @@
-<p>setup-product-and-catalog-page works!</p>
+<div
+  class="w-full h-auto min-h-screen flex flex-col items-center justify-start bg-[var(--color-quaternary-50)]"
+>
+  <div class="w-full h-auto">
+    <app-step-header selectedStep="setup-product-and-catalog"></app-step-header>
+  </div>
+
+  <form
+    class="w-full h-auto p-[25px] flex flex-col items-start justify-center gap-4 max-w-lg"
+    [formGroup]="setupProductAndCatalogForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="w-full h-auto flex flex-col items-start justify-start">
+      <p
+        class="text-left text-[14px] leading-[20px] md:text-[16px] md:leading-[24px] font-semibold"
+      >
+        Add Your First Products
+      </p>
+
+      <p
+        class="text-left text-[12px] leading-[16px] md:text-[14px] md:leading-[20px] text-[var(--color-text-secondary)]"
+      >
+        Create your product catalog and get ready to start selling.
+      </p>
+    </div>
+
+    <div class="w-full h-auto flex flex-col items-start justify-start gap-4">
+      <div class="w-full h-auto flex flex-col items-start justify-start gap-1.5">
+        <div class="w-full h-auto">
+          <p class="text-left text-[14px] leading-[20px] font-semibold">Product Detail</p>
+        </div>
+
+        <div
+          class="w-full h-auto flex flex-col items-start justify-start gap-2 rounded-lg border border-[var(--color-tertiary-500)] p-4"
+        >
+          <div class="w-full h-auto">
+            <app-input
+              id="name"
+              label="Name"
+              placeholder="e.g. Product 1"
+              [required]="true"
+              formControlName="name"
+              [error]="nameError"
+            ></app-input>
+          </div>
+
+          <div class="w-full h-auto">
+            <app-textarea
+              id="description"
+              label="Description"
+              placeholder="e.g. This product is very good taste..."
+              [required]="true"
+              formControlName="description"
+              [error]="descriptionError"
+            ></app-textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full h-auto flex flex-col items-start justify-start gap-1.5">
+        <div class="w-full h-auto">
+          <p class="text-left text-[14px] leading-[20px] font-semibold">Variant</p>
+        </div>
+
+        <div
+          class="w-full h-auto flex flex-col items-start justify-start gap-2 rounded-lg border border-[var(--color-tertiary-500)] p-4"
+        >
+          <p>Variant field</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full h-auto flex flex-col items-center justify-center gap-4">
+      <div class="w-full h-auto px-4 flex flex-col items-start justify-start gap-2">
+        <div class="w-full h-auto">
+          <app-button
+            type="submit"
+            variant="primary"
+            [disabled]="setupProductAndCatalogForm.invalid || submitSetupProductAndCatalogLoading()"
+            [loading]="submitSetupProductAndCatalogLoading()"
+          >
+            Save & Continue
+          </app-button>
+        </div>
+
+        <div class="w-full h-auto">
+          <app-button type="button" variant="outline-primary" (click)="goToSetupOutletPage()">
+            Back
+          </app-button>
+        </div>
+      </div>
+
+      <div class="w-auto h-auto flex items-center justify-center gap-1">
+        <img
+          src="assets/images/svg/lock_24px_tertiary_500.svg"
+          alt="Lock icon"
+          class="w-full h-full min-w-[16px] max-w-[16px] min-h-[16px] max-h-[16px] object-contain object-center"
+        />
+
+        <p class="text-center text-[12px] leading-[16px] text-[var(--color-tertiary-500)]">
+          Your business information is securely stored.
+        </p>
+      </div>
+    </div>
+  </form>
+</div>
