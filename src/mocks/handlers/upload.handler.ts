@@ -44,4 +44,30 @@ export const uploadHandlers = [
 
     return HttpResponse.json(fakeUrl, { status: 201 });
   }),
+
+  http.get('/api/uploads/:entityId', async ({ params, request }) => {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const decryptedToken = decrypt(token);
+    const user = await db.users.get(decryptedToken);
+    if (!user) {
+      return HttpResponse.json({ message: 'Forbidden' }, { status: 403 });
+    }
+
+    const { entityId } = params;
+    if (!entityId) {
+      return HttpResponse.json({ message: 'Invalid entityId' }, { status: 400 });
+    }
+
+    const findFile = await db.uploads.where('entityId').equals(entityId).first();
+    if (!findFile) {
+      return HttpResponse.json({ message: "You haven't uploaded a photo yet" }, { status: 200 });
+    }
+
+    return HttpResponse.json(findFile, { status: 200 });
+  }),
 ];

@@ -2,6 +2,7 @@ import { UserRole } from './user-role.model';
 
 export interface UserProfileResponse {
   id: string;
+  photoUrl: string | null;
   username: string;
   email: string;
   phoneNumber: string;

@@ -17,7 +17,9 @@
       <p class="text-center text-[12px] leading-[16px] font-semibold">
         Choose a file or drag & drop it here
       </p>
-      <p class="text-center text-[12px] leading-[16px]">JPEG, JPG, Webp, PNG, and PDF</p>
+      <p class="text-center text-[12px] leading-[16px]">
+        {{ allowedFileText() }}
+      </p>
     </div>
 
     <button
@@ -38,7 +40,7 @@
       }
 
       <p class="text-center text-[12px] leading-[16px] font-semibold">
-        {{ file.file.name }}
+        {{ file.file.name || file.url }}
       </p>
 
       @if (file.error) {

@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UploadedFile } from '../../models/uploaded-file.model';
+import { AcceptTypeFileUpload } from '../../models/accept-types-file-upload.model';
 
 @Component({
   selector: 'app-file-upload',
@@ -27,7 +28,12 @@ import { UploadedFile } from '../../models/uploaded-file.model';
 })
 export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   maxSizeMB = input<number>(5);
-  acceptTypes = input<string[]>(['image/jpeg', 'image/png', 'image/webp', 'application/pdf']);
+  acceptTypes = input<AcceptTypeFileUpload[]>([
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'application/pdf',
+  ]);
   disabled = input<boolean>(false);
 
   disabledSignal = signal<boolean>(false);
@@ -35,6 +41,14 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   isDragging = signal<boolean>(false);
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
+  private readonly mimeLabelMap: Record<AcceptTypeFileUpload, string> = {
+    'image/jpeg': 'JPEG',
+    'image/jpg': 'JPG',
+    'image/png': 'PNG',
+    'image/webp': 'WebP',
+    'application/pdf': 'PDF',
+  };
 
   ngOnDestroy(): void {
     this.cleanupObjectUrls();
@@ -122,6 +136,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
 
       processed.push({
         file,
+        url: '',
         previewUrl,
         error: error ?? null,
       });
@@ -135,7 +150,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   private validateFile(file: File): string | null {
-    if (!this.acceptTypes().includes(file.type)) {
+    if (!this.acceptTypes().includes(file.type as AcceptTypeFileUpload)) {
       return 'File type not allowed';
     }
 
@@ -157,4 +172,13 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   isDisabled = computed<boolean>(() => this.disabled() || this.disabledSignal());
+
+  allowedFileText = computed<string>(() => {
+    const labels = this.acceptTypes().map((type) => this.mimeLabelMap[type] ?? type);
+
+    if (labels.length <= 1) return labels.join('');
+
+    const last = labels.pop();
+    return `${labels.join(', ')}, and ${last}`;
+  });
 }

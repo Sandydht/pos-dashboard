@@ -24,7 +24,7 @@ export class UploadService {
     return this.http.post<string>(`${this.apiUrl}/uploads`, formData);
   }
 
-  getFileUrl(entityId: string): Observable<UploadResponse> {
+  getFile(entityId: string): Observable<UploadResponse> {
     return this.http.get<UploadResponse>(`${this.apiUrl}/uploads/${entityId}`);
   }
 }

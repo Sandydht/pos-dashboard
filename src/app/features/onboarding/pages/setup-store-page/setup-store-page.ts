@@ -17,6 +17,7 @@ import { FileUploadComponent } from '../../../../shared/components/file-upload/f
 import { UploadedFile } from '../../../../shared/models/uploaded-file.model';
 import { UploadService } from '../../../../core/services/upload-service/upload-service';
 import { UploadRequest } from '../../../../shared/models/upload-request.model';
+import { UploadResponse } from '../../../../shared/models/upload-response.model';
 
 @Component({
   selector: 'app-setup-store-page',
@@ -115,6 +116,27 @@ export class SetupStorePage implements OnInit {
       });
   }
 
+  fetchStorePhoto(entityId: string): void {
+    this.uploadService
+      .getFile(entityId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: UploadResponse) => {
+          if (response.id) {
+            console.log('response: ', response);
+          }
+        },
+        error: (err) => {
+          this.store.dispatch(
+            SnackbarActions.showSnackbar({
+              message: err?.error?.message || 'Internal Server Error',
+              variant: 'error',
+            }),
+          );
+        },
+      });
+  }
+
   onSubmit(): void {
     if (this.setupStoreForm.invalid) {
       this.setupStoreForm.markAllAsTouched();
@@ -125,27 +147,38 @@ export class SetupStorePage implements OnInit {
 
     const uploadedFiles = this.setupStoreForm.controls.storePhotoUrl.value ?? [];
 
-    const firstFile: UploadedFile | null =
-      uploadedFiles.find((file: UploadedFile) => !file.error) ?? null;
-    if (!firstFile) {
-      this.store.dispatch(
-        SnackbarActions.showSnackbar({
-          message: 'No valid file selected',
-          variant: 'error',
-        }),
-      );
-      this.submitSetupStoreLoading.set(false);
-      return;
-    }
+    const firstFile = uploadedFiles.find((file) => !file.error) ?? null;
 
-    if (!this.storeId()) {
-      this.store.dispatch(
-        SnackbarActions.showSnackbar({
-          message: 'Invalid store id',
-          variant: 'error',
-        }),
-      );
-      this.submitSetupStoreLoading.set(false);
+    const createStore = (photoUrl?: string) => {
+      const payload: OnboardingCreateStoreRequest = {
+        photoUrl: photoUrl ?? null, // optional
+        code: this.setupStoreForm.controls.storeCode.value,
+        name: this.setupStoreForm.controls.storeName.value,
+      };
+
+      this.onboardingService
+        .createStore(payload)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.setupStoreForm.reset();
+            this.submitSetupStoreLoading.set(false);
+            this.router.navigate(['/onboarding', 'setup-outlet']);
+          },
+          error: (err) => {
+            this.store.dispatch(
+              SnackbarActions.showSnackbar({
+                message: err?.error?.message || 'Internal Server Error',
+                variant: 'error',
+              }),
+            );
+            this.submitSetupStoreLoading.set(false);
+          },
+        });
+    };
+
+    if (!firstFile) {
+      createStore();
       return;
     }
 
@@ -159,32 +192,8 @@ export class SetupStorePage implements OnInit {
       .upload(uploadFilePayload)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: string) => {
-          const payload: OnboardingCreateStoreRequest = {
-            photoUrl: response,
-            code: this.setupStoreForm.controls.storeCode.value,
-            name: this.setupStoreForm.controls.storeName.value,
-          };
-
-          this.onboardingService
-            .createStore(payload)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe({
-              next: () => {
-                this.setupStoreForm.reset();
-                this.submitSetupStoreLoading.set(false);
-                this.router.navigate(['/onboarding', 'setup-outlet']);
-              },
-              error: (err) => {
-                this.store.dispatch(
-                  SnackbarActions.showSnackbar({
-                    message: err?.error?.message || 'Internal Server Error',
-                    variant: 'error',
-                  }),
-                );
-                this.submitSetupStoreLoading.set(false);
-              },
-            });
+        next: (url: string) => {
+          createStore(url);
         },
         error: (err) => {
           this.store.dispatch(

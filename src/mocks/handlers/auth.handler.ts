@@ -22,6 +22,7 @@ export const authHandlers = [
 
     const now = new Date().toISOString();
     const newUser = await userMockService.create({
+      photoUrl: null,
       username: body.username,
       email: body.email,
       phoneNumber: body.phoneNumber,
